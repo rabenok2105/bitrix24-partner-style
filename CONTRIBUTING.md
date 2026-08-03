@@ -11,7 +11,7 @@ git config --global user.name "Имя Фамилия"
 git config --global user.email "you@example.com"
 
 # 2. Клонируй репозиторий в папку скиллов (если ещё не сделал)
-git clone <REPO_URL> ~/.claude/skills/bitrix24-partner-style
+git clone https://github.com/rabenok2105/bitrix24-partner-style.git ~/.claude/skills/bitrix24-partner-style
 cd ~/.claude/skills/bitrix24-partner-style
 ```
 

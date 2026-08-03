@@ -22,7 +22,7 @@ Claude Code. Скилл собирает A4-PDF, LinkedIn-карусели и In
 
 ```bash
 # личный скилл (доступен во всех проектах)
-git clone <REPO_URL> ~/.claude/skills/bitrix24-partner-style
+git clone https://github.com/rabenok2105/bitrix24-partner-style.git ~/.claude/skills/bitrix24-partner-style
 ```
 
 Проверь, что Claude Code видит скилл: в новой сессии он появится в списке как
