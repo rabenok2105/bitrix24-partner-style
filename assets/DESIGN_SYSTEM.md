@@ -215,9 +215,12 @@ One brand, several canvases. Add a size modifier next to `.page`; the palette cl
 |---|---|---|---|
 | A4 portrait *(default)* | `.page` | 210 × 297 mm | PDF |
 | A4 landscape | `.page--a4-land` | 297 × 210 mm | PDF — doc must also set `@page { size: A4 landscape; margin:0 }` |
+| **Industry Guide** | `.page--guide` | 1080 × 1350 px | **multi-page PDF** (all sheets in one file) |
 | LinkedIn square | `.page--li` | 1080 × 1080 px | PNG per slide |
 | Instagram Story | `.page--story` | 1080 × 1920 px | PNG per slide |
 
+- **Industry Guide (`guide`)** is a **vertical multi-page PDF** — see **§5b**. It is the one 1080 px
+  preset that stacks many sheets into a single PDF (like A4), not one image per slide.
 - **Social = one `.page` per slide.** Render each slide with `@page { size: 1080px 1080px; margin:0 }`
   (story: `1080px 1920px`) to a 1-page PDF, then rasterize that page to **PNG** (one image per slide).
   For carousels, keep one slide per HTML file so each exports to its own image cleanly.
@@ -227,6 +230,105 @@ One brand, several canvases. Add a size modifier next to `.page`; the palette cl
   a logo (and an optional slide counter), no running header.
 - Social slides skip A4 mm padding and use their own px padding; drop in `.b24-plogo--cover`
   (44 px on social) for the logo. Everything else — colors, pills, buttons, tetris, stars — is shared.
+
+### 5b. Industry Guide — a distinct direction  (`.page--guide`, format `guide`)
+
+A **per-industry quick guide** (Construction & Remodeling, Digital Marketing, …): a
+**1080 × 1350 px vertical, multi-page PDF**. It is its own direction, with a fixed page
+sequence and one signature component. **Living reference:** `industry-guide-template.html`.
+**Render:** `python3 scripts/render.py industry.html --format guide` → one multi-page PDF.
+
+**Sub-brand — Bitrix24 corporate (not Partners).** Guides use the default `.page` family with
+the **mono-ink logo `logo-ink.svg`** (the Bitrix24 wordmark recoloured to `#012254`) and a green
+**"Quick Guide" pill**. Headings use Montserrat **Bold (700)** here, not ExtraBold — the cover
+`.b24-display`, the section `.b24-h1`, and the `.b24-ig-star` decorations carry **no shadow**.
+**Do NOT** put `.page--sky` /
+`.page--partner-navy` on a guide page, and don't use the partner lockup here.
+
+**★ Locked palette (the whole guide).** `.page--guide` fixes these — reuse, don't override:
+
+| Role | Value |
+|---|---|
+| Page background | `#F5FAFF` |
+| Dark surfaces — icon tiles, cover person/title plates, closing band, headings | one shared gradient **`var(--b24-ig-navy)`** (deep navy `#01447B` + soft azure glow) |
+| Large content plates (the pain→tools→outcome cards) | `#01447B` at **alternating opacity — 4 %, 10 %, 4 %, …** (`.b24-card--t4` / `.b24-card--t10`) |
+| Regular body text | `#002153` at **80 %** (`.page--guide` sets `--b24-text` to it) |
+
+The **one** dark-navy gradient is used everywhere a dark surface appears, so tiles, plates and
+headings all read as the same colour. `.b24-h1` is filled with it (gradient text); the cover
+title/plates carry it as a background.
+
+**Page sequence (cover → challenge pages → key-value close — ~6 pages at 2 cards/page):**
+
+1. **Cover** (`.page--guide.b24-ig-cover`): a top row with `logo-ink.svg` (`#012254`) pinned right
+   (`.b24-ig-head`). Below it a dark-navy **person plate** (`.b24-ig-plate`) — a **shorter band**
+   pushed to the bottom (inline `height` ≈ 40 % of the free area + `margin-top:auto`) so **free
+   space is left above it near the logo**. The cutout person floats **on top** of it
+   (`.b24-ig-figure`) — **big, not clipped by the plate**. Make the figure a **child of the plate
+   with `bottom:0`** so its bottom always sits **flush on the plate bottom (no gap)** while it
+   overflows upward, its **head at the same height as the logo** (set only inline `height`; the
+   upper body sits over the free space). `.b24-ig-figure` carries **no drop-shadow** — the cutout
+   sits directly on the plate. Scatter 2–3 3-D brand
+   **stars** around the person (`.b24-ig-star`, `bitrix24-images/star-3d.png`) — varied sizes,
+   a few degrees of rotation, one optionally behind the person (`z-index:1`). Then a dark-navy
+   **title plate** (`.b24-ig-titlecard`) that **hugs its content and is pinned to the bottom**
+   (`margin-top:auto`, no filler space): a `.b24-ig-titlerow` holds the big white `.b24-display`
+   title (left) and the green **"Quick Guide" pill** (right), aligned by their **top edges**;
+   below, a white `.b24-lead` intro (~24 px). To stress part of the intro, make that span **bold
+   in the same size, green or white** (`.b24-em--green` / `.b24-em--white`) — **not** a coloured
+   underline. No bottom logo on the cover.
+2. **Challenge pages**: an optional `.b24-h1` section title on the first, then a stack of
+   **pain → tools → outcome** cards, tints alternating 4 %/10 % **down the whole document**.
+   **Fit 2 or 3 blocks per page** — the number of blocks and how much copy each holds varies by
+   content and by localization (COM vs ES/PL/DE), so this flexes per guide. **HARD RULE: the last
+   block on a page must never reach the page bottom — always leave a clear bottom margin below it.**
+   Put **3 blocks on a page only if they still leave that margin**; if they don't, **move a block
+   to the next page and use 2 blocks per page** (never shrink type or overpack — a sheet clips
+   overflow). A **2-block page keeps the centered logo footer**; a genuinely full **3-block page
+   drops it**. (The bundled Construction template is 2 blocks/page — every page ends with a wide
+   bottom margin.)
+3. **Key-value close**: `.b24-h1` title, a `.b24-bullets` value list, a `.b24-quote`
+   (green left-bar) thesis, and a closing **photo band** — a `.b24-ig-plate` with people
+   (`duo-team`, sized large) as a **child of the plate** via `.b24-ig-figure` (`bottom:0`, flush
+   on the plate bottom, not clipped, no shadow), plus 2–3 `.b24-ig-star` around them. Last page:
+   **no** logo footer.
+
+**Footer.** Guide content pages carry **only a centered logo** (`.b24-ig-foot`) — **no rule
+line, no "Page N".** Put it on every middle page that has room (typically a 2-block page); a
+**3-block page drops it** to make space. Never on the first (cover) or last (key-value) page.
+
+**★ Industry people (cover + closing figure).** The `.b24-ig-figure` on the cover (one person)
+and on the closing band (1–2 people) must **match the guide's industry** — swap by *attire*, not
+only ethnicity/pose — and **every person always holds a device (phone / laptop / tablet)** because
+we sell software. Reuse the bundled library for office-type guides; **generate a transparent
+industry cutout** (worker in hi-vis, clinician in scrubs, …) for industries the library doesn't
+cover, save it to `bitrix24-images/people/`, and point the two `src` paths at it. The full recipe
+(generation prompt, framing/alpha requirements, industry→attire→device table) is **`PEOPLE.md`**.
+
+**Signature component — Pain → Bitrix24 Tools → Practical Outcome** (`.b24-card.b24-solve`):
+a translucent `#01447B` plate (alternating 4 %/10 %) with a two-column grid — **Business pain**
+left, **Bitrix24 Tools** right (a comma list of links), a `.b24-tile` (`var(--b24-ig-navy)` +
+white brand SVG) pinned top-right, then a full-width **Practical Outcome** row. Only the small
+`.b24-label` captions distinguish the columns: the **pain text, the outcome text and the tool
+links all share one style** — the body colour/weight/typeface (`#002153` @ 80 %, regular),
+nothing bold; links carry only an underline. Section headings (`.b24-h1`) are a **solid** deep
+navy `#01447B` (not gradient-filled — a flat colour avoids the clip-to-text box some viewers show).
+
+> **★ The "Bitrix24 Tools" list is a set of real, localizable links.** Each tool name is an
+> `<a href="…">` (deep-blue underline) so the exported PDF is clickable. The text **and** the
+> URL localize per market: translate the text and swap the link domain (`.com`→`.es`→`.pl`),
+> keeping the path. Full glossary + workflow: **`LOCALIZATION.md`**. Layouts must tolerate
+> ~20–30 % text growth (ES/PL/DE) — split to a new page rather than shrink type; each
+> `.page--guide` sheet is fixed-height with `overflow:hidden`, so overruns clip.
+
+**What's provided in the kit for this direction:** the `.page--guide` size + locked palette
+(`#F5FAFF`, `--b24-ig-navy`, `--b24-text`) + a calmer type scale; the cover/close helpers
+`.b24-ig-cover` / `.b24-ig-head` / `.b24-ig-plate` / `.b24-ig-figure` / `.b24-ig-titlecard` +
+`.b24-ig-titlerow` / `.b24-em--white` + `.b24-em--green` (bold same-size emphasis) /
+`.b24-ig-star` (with `bitrix24-images/star-3d.png`) /
+`.b24-ig-foot` (centred, enlarged logo); the card tints `.b24-card--t4` / `.b24-card--t10`;
+guide-sized tuning of `.b24-card`, `.b24-solve*`, `.b24-tile`, `.b24-bullets`, `.b24-quote`,
+and solid `.b24-h1`. Everything else — pills, logo — is the shared corporate system.
 
 ---
 
@@ -324,6 +426,12 @@ Position decoration with `.b24-deco` (absolute, `z-index:0`) and keep text in `.
 
 ## 8. Imagery
 
+- **★ Industry people (for Industry Guides).** The cover/closing figures should **match the
+  guide's industry by attire** (construction → hi-vis + hard hat; medical → scrubs/coat; …) and
+  **always hold a device (phone/laptop/tablet)** since we sell software. Reuse the bundled library
+  when a generic business look fits; otherwise **generate a transparent industry cutout** and drop
+  it in. The complete feature — generation prompt, framing/alpha requirements, and an
+  industry→attire→device table — is in **`PEOPLE.md`**.
 - **Style:** photorealistic **cutout people** (no background) — smiling professionals, business
   attire, often holding a phone/tablet/prop relevant to the topic. Placed on the light zone or
   overlapping a navy card.
@@ -354,7 +462,27 @@ Position decoration with `.b24-deco` (absolute, `z-index:0`) and keep text in `.
 
 ## 9. Iconography & logo
 
-- **Brand icons** (from the Figma *Icons* set) live in **`bitrix24-images/icons/`** — clean
+### ★ Icon rule for ALL PDFs — the official Bitrix24 icon base (`ICONS.md`)
+Icons come from the official **Bitrix24 "Common" icon library**; the full base — every icon,
+its meaning, and its Figma node id — is cataloged in **`ICONS.md`** (read it to choose icons).
+The rule, for every PDF (Industry Guide and all others):
+- **Default to the SOLID set** (*Solid Icons (Web and Mobile)*). Use **Outline Bold (Web)** only
+  when the user explicitly asks for the outline look.
+- **One icon style per file — never mix.** Whole document is Solid, or whole document is Outline.
+- **Pick by MEANING, not decoration** (a leads block → *Lead*; growth/optimisation → *Trend up* /
+  *Statistics arrow* / *Graphs diagram*; automation → *Business process*; access → *Shield* /
+  *Lock*). Use the semantic index in `ICONS.md`.
+- **Recolour to the design system** (icons export in brand green — never use them green):
+  **white** on navy tiles / dark surfaces, **deep navy `#01447B`** inline on light pages. Export
+  with Figma `download_assets` (svg) by node id, then run `scripts/prep_icon.py raw.svg <name>
+  --dir assets/bitrix24-images/icons-solid` to get the `<name>.svg` (navy) + `<name>-white.svg` twins.
+- **Fetch on demand — don't bulk-download.** For each document, look up only the few icons it
+  needs in `ICONS.md`, check the `bitrix24-images/icons-solid/` cache, and fetch just the missing
+  node ids (a handful per doc — light on Figma's per-seat limit). The cache grows over time; it is
+  seeded with `lead`, `crm`, `funnel`, `chart`. Keep every icon in a document the same family; the
+  current Industry Guide still uses the older curated `bitrix24-images/icons/` set.
+
+- **Brand icons** live in **`bitrix24-images/icons/`** — clean
   single-color SVGs in brand navy, each with a `-white.svg` twin for dark surfaces. All are
   normalized to a centered square so they sit perfectly centered and at a uniform optical size in
   any tile. **Prefer these over emoji.** Two groups:

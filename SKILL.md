@@ -33,6 +33,21 @@ Montserrat font — so output is fully self-contained and offline.
   automatically by the render script.
 - **`bitrix24-template.html`** — living styleguide. **Copy component blocks from
   here** and swap the text; don't hand-write components from scratch.
+- **`industry-guide-template.html`** — living reference for the **Industry Guide**
+  direction (the `guide` format): a full 5-page vertical guide (cover → pain→tools→
+  outcome pages → key-value close). Copy from here when building an industry guide.
+- **`LOCALIZATION.md`** — how to ship a guide per market: the tool-link glossary
+  (EN/ES/PL) and the domain-swap URL rule. Read it whenever links or localization
+  are involved.
+- **`PEOPLE.md`** — the **industry-people** feature: how to swap the cover/closing
+  figures to match a guide's industry (attire, always holding a device) — pick from
+  the library or generate a transparent cutout. Read it whenever building a guide.
+- **`ICONS.md`** — the **icon base for all PDFs**: the full catalog of the official
+  Bitrix24 icon library (every icon + meaning + Figma node id) and the rule — default
+  **Solid**, Outline Bold only on request, **one style per file**, pick by **meaning**,
+  recolour per the design system. **Fetch on demand:** per document, look up only the
+  few icons it needs, export just those node ids from Figma (check the
+  `icons-solid/` cache first), and prep with `scripts/prep_icon.py` — never bulk-download.
 - **`bitrix24-logo/`**, **`Montserrat (1)/`** — official logos + brand font.
 - **`bitrix24-images/`** — real brand imagery: `people/` (transparent cutout-people
   photos, clean names like `woman-laptop.png`, `man-asian-suit.png`) and `icons/`
@@ -46,12 +61,32 @@ Montserrat font — so output is fully self-contained and offline.
 |---|---|---|---|---|
 | Guide / brochure / playbook | `a4` | 210×297 mm | `.page` | multi-page PDF |
 | Wide handout / slide-style | `a4-land` | 297×210 mm | `.page--a4-land` | multi-page PDF |
+| **Industry Guide** (vertical) | `guide` | 1080×1350 | `.page--guide` | **multi-page PDF** |
 | LinkedIn carousel / gallery | `li` | 1080×1080 | `.page--li` | one PNG per slide |
 | Instagram Story | `story` | 1080×1920 | `.page--story` | one PNG per slide |
 
 The palette classes still apply on top: `.page--sky` (Partners light) and
 `.page--partner-navy` (deep navy for covers/CTA). Social presets carry a larger
 type scale automatically.
+
+### Industry Guide (the `guide` format)
+A **1080×1350 vertical, multi-page PDF** — Bitrix24's per-industry quick guides
+(Construction, Digital Marketing, …). Unlike the social presets, all
+`.page--guide` sheets stack into **one PDF**. **Bitrix24 corporate** format with
+a **locked palette**: background `#F5FAFF`; all dark surfaces (icon tiles, cover
+person/title plates, closing band, headings) share one gradient `var(--b24-ig-navy)`;
+large content cards are `#01447B` at alternating 4 %/10 %; body text `#002153` @ 80 %.
+Mono-ink `logo-ink.svg` (`#012254`) + green "Quick Guide" pill; headings are Bold
+(700); **do not** add `.page--sky` / `.page--partner-navy`. The cover person floats
+**on top** of its plate (not clipped, head at the logo line); the closing page does
+the same. **Match the cover/closing people to the guide's industry** (attire + a
+device) — see `PEOPLE.md`. To stress part of a phrase, use bold same-size green/white
+(`.b24-em--green` / `.b24-em--white`), never a coloured underline. Content pages end
+in a **centered logo** (no line, no "Page N") except first and last. Structure,
+components and localization are in
+`industry-guide-template.html`, `DESIGN_SYSTEM.md §5b`, and `LOCALIZATION.md`.
+Its signature page is the **pain → Bitrix24 Tools → Practical Outcome** card,
+where every tool is a **real, localizable link** (see below).
 
 ## Workflow
 
@@ -116,6 +151,13 @@ Full detail is in `DESIGN_SYSTEM.md`; these are the ones that matter most.
   navy; on light pages emphasize with `<strong>` or a green pill.
 - **CTA "Become a Partner"** is always a real link, centered, sized up:
   `<div class="b24-btn-center"><a class="b24-btn b24-btn--lg" href="https://partners.bitrix24.com/">Become a Partner <span class="b24-btn__arrow">→</span></a></div>`
+- **★ Industry Guide "Bitrix24 Tools" are real, localizable links.** In every
+  pain→tools→outcome card, wrap each tool name in a real `<a href="…">` (deep-blue
+  underlined) so the exported PDF is clickable — never plain text. To localize,
+  translate the link text and swap only the domain (`.com`→`.es`→`.pl`), keeping
+  the path. Glossary + rule: `assets/LOCALIZATION.md`. Keep the `guide` cover on
+  the corporate `.page` palette with the two-tone `logo.svg` and a green
+  "Quick Guide" pill — not the partner navy.
 - **Use real imagery where it adds life.** Prefer the bundled assets over emoji/placeholders:
   - **Cutout people** (`bitrix24-images/people/*.png`, transparent) on covers, heroes, closing
     pages — as a floating `<img class="b24-cutout b24-cutout--shadow" …>` (position with inline

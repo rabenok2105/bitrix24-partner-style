@@ -7,6 +7,7 @@ assembles the HTML from the bundled brand kit and renders the final file.
 
 **Outputs**
 - **A4 PDF** — guides, brochures, one-pagers, playbooks (portrait *or* landscape)
+- **Industry Guide** — 1080×1350 vertical, multi-page PDF (per-industry quick guides, localizable)
 - **LinkedIn** — square 1080×1080 carousels / galleries (PNG per slide)
 - **Instagram Stories** — 1080×1920 with a built-in UI safe-zone (PNG per slide)
 
@@ -79,7 +80,7 @@ Windows (PowerShell — note `python`, not `python3`):
 ```powershell
 python "$env:USERPROFILE\.claude\skills\bitrix24-partner-style\scripts\render.py" mydoc.html --format a4
 ```
-Formats: `a4` · `a4-land` · `li` (LinkedIn 1080²) · `story` (IG 1080×1920).
+Formats: `a4` · `a4-land` · `guide` (Industry Guide 1080×1350 multi-page PDF) · `li` (LinkedIn 1080²) · `story` (IG 1080×1920).
 
 ## What's inside
 ```
@@ -89,8 +90,11 @@ bitrix24-partner-style/
 ├── assets/
 │   ├── DESIGN_SYSTEM.md      # full spec (colors, components, formats, logo rules)
 │   ├── bitrix24-kit.css      # tokens + component classes
-│   ├── bitrix24-template.html# copy-paste component source
+│   ├── bitrix24-template.html# copy-paste component source (A4 / social)
+│   ├── industry-guide-template.html # Industry Guide living reference (guide format)
+│   ├── LOCALIZATION.md       # per-market tool-link glossary + domain-swap rule
 │   ├── bitrix24-logo/        # official logos (incl. partner lockups)
+│   ├── bitrix24-images/      # cutout people + product icons
 │   └── Montserrat (1)/       # brand font (embedded)
 └── scripts/
     └── render.py             # HTML → PDF (A4) / PNG per slide (social)

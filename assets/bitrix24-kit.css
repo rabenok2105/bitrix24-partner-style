@@ -175,6 +175,23 @@ body {
 .page--li    { width: 1080px; height: 1080px; min-height: 1080px; padding: 80px; }  /* LinkedIn square */
 .page--story { width: 1080px; height: 1920px; min-height: 1920px; padding: 90px 80px; } /* IG Stories 9:16 */
 
+/* --- Industry Guide (multi-page vertical PDF) -----------------------------
+   A 1080 × 1350 px (4:5) vertical page. Unlike the social presets, MANY
+   .page--guide sheets stack into ONE multi-page PDF (export --format guide).
+   This is a BITRIX24 (corporate) format: keep the default corporate .page
+   palette (cool background, two-tone logo.svg, corporate blue titles, green
+   "Quick Guide" pill). Do NOT combine with .page--sky / .page--partner-navy. */
+.page--guide {
+  width: 1080px; height: 1350px; min-height: 1350px; padding: 64px;
+  background: #F5FAFF;                    /* whole-file guide background */
+  color: rgba(0, 33, 83, .80);           /* regular text = #002153 @ 80% */
+  --b24-text: rgba(0, 33, 83, .80);      /* so .b24-p / .b24-quote inherit it */
+  /* ★ ONE dark-navy gradient reused across the entire guide — icon tiles, the
+     cover person/title plates, the closing photo plate, and section headings.
+     Anchored on the guide plate colour #01447B with a soft azure glow on top. */
+  --b24-ig-navy: radial-gradient(125% 135% at 50% 16%, #0A5EA6 0%, #024E88 42%, #01447B 70%, #012E5C 100%);
+}
+
 /* Punchier type scale for the 1080px social canvases (A4 body type is too small
    at this size). Higher specificity than the base scale, so these win. */
 .page--li, .page--story { font-size: 20px; line-height: 1.5; }
@@ -193,6 +210,47 @@ body {
 .page--li  .b24-tile, .page--story .b24-tile { width: 92px; height: 92px; font-size: 44px; border-radius: 20px; }
 .page--li  .b24-quote,.page--story .b24-quote{ font-size: 27px; border-left-width: 8px; padding-left: 28px; }
 .page--li  .b24-plogo--cover, .page--story .b24-plogo--cover { height: 44px; }
+
+/* Type scale for the Industry Guide 1080×1350 canvas — a touch calmer than the
+   social scale (guides carry more body copy per page). */
+.page--guide { font-size: 20px; line-height: 1.5; }
+.page--guide .b24-display { font-size: 80px; line-height: 1.01; letter-spacing: -.02em;
+                            font-weight: 700; }  /* Bold, not ExtraBold (was too heavy) */
+.page--guide .b24-h1      { font-size: 40px; line-height: 1.1; margin-bottom: 30px; }
+.page--guide .b24-h2      { font-size: 28px; }
+.page--guide .b24-h3      { font-size: 21px; }
+.page--guide .b24-lead    { font-size: 24px; line-height: 1.45; }
+.page--guide .b24-p       { font-size: 24px; line-height: 1.5; }
+.page--guide .b24-label   { font-size: 19px; letter-spacing: .01em; }
+.page--guide .b24-small   { font-size: 15px; }
+.page--guide .b24-pill    { font-size: 18px; padding: 9px 22px; }
+.page--guide .b24-bullets > li { font-size: 24px; padding-left: 34px; margin-bottom: 16px; }
+.page--guide .b24-bullets > li::before { width: 11px; height: 11px; top: .5em; }
+.page--guide .b24-quote   { font-size: 24px; border-left-width: 8px; padding-left: 26px; }
+.page--guide .b24-plogo--cover { height: 40px; }
+/* Section heading — solid deep navy (the gradient's mid stop). A flat colour
+   avoids the faint clip-to-text box that background-clip:text leaves in some
+   PDF viewers, while still matching the dark-navy surfaces. */
+.page--guide .b24-h1 { color: #01447B; font-weight: 700; }  /* Bold, not ExtraBold */
+.page--guide .b24-h2, .page--guide .b24-h3 { font-weight: 700; }
+/* App-icon tile — rounded square, the shared dark-navy gradient behind a white icon */
+.page--guide .b24-tile    { width: 96px; height: 96px; font-size: 44px; border-radius: 22px;
+                            background: var(--b24-ig-navy); }
+/* Pain → Tools → Outcome card = a large translucent #01447B plate. Alternate the
+   opacity down the document: 1st 4%, 2nd 10%, 3rd 4%, … (.b24-card--t4 / --t10). */
+.page--guide .b24-card    { padding: 40px 44px; border-radius: 28px; margin-bottom: 24px;
+                            background: rgba(1, 68, 123, .04); }
+.page--guide .b24-card--t4  { background: rgba(1, 68, 123, .04); }
+.page--guide .b24-card--t10 { background: rgba(1, 68, 123, .10); }
+.page--guide .b24-solve__grid { gap: 26px 40px; }
+.page--guide .b24-solve__tile { top: 40px; right: 44px; }
+.page--guide .b24-solve__tools { padding-right: 124px; }
+/* Pain text, outcome text and tool links all share ONE style — same colour,
+   weight and typeface as the body copy (#002153 @ 80%, regular). Links keep only
+   their underline to mark them as links; nothing is bold. */
+.page--guide .b24-solve__pain .b24-strong { font-weight: 400; font-size: 24px;
+                                            line-height: 1.5; color: inherit; }
+.page--guide a, .page--guide .b24-link { color: rgba(0, 33, 83, .80); font-weight: 400; }
 
 /* Instagram Story UI safe-zone: keep key content clear of the ~240px the app
    overlays at top (avatar) and bottom (reply / CTA bar). Wrap slide content in
@@ -454,7 +512,7 @@ a, .b24-link   { color: var(--b24-blue-500); text-decoration: underline;
 }
 .b24-bullets > li::before {
   content: ""; position: absolute; left: 0; top: .42em;
-  width: 9px; height: 9px; border-radius: 2px; background: var(--b24-navy-800);
+  width: 9px; height: 9px; border-radius: 2px; background: var(--b24-navy-900);
 }
 .page--navy .b24-bullets > li::before { background: var(--b24-lime); }
 
@@ -642,3 +700,78 @@ a, .b24-link   { color: var(--b24-blue-500); text-decoration: underline;
 .b24-cutout { position: absolute; bottom: 0; right: var(--b24-page-pad);
   height: 70%; width: auto; object-fit: contain; z-index: 0; pointer-events: none; }
 .b24-cutout--shadow { filter: drop-shadow(0 18px 30px rgba(6, 40, 99, .28)); }
+
+/* ============================================================================
+   14. INDUSTRY GUIDE — cover + shared plates  (Bitrix24 corporate format)
+   The 1080×1350 guide cover = light .page--guide sheet with, top→bottom:
+     • a top row with the two-tone logo (right)  (.b24-ig-head)
+     • a dark-navy PERSON plate (.b24-ig-plate) with the cutout person floating
+       ON TOP of it (.b24-ig-figure) — the person is NOT clipped by the plate;
+       its head sits at the same height as the logo.
+     • a dark-navy TITLE plate (.b24-ig-titlecard): big white title, a green
+       "Quick Guide" pill, and a white intro whose closing phrase is underlined
+       with the green squiggle (.b24-squiggle).
+   The SAME `.b24-ig-plate` + `.b24-ig-figure` pair backs the closing page's
+   photo band. All dark surfaces use the one shared gradient var(--b24-ig-navy).
+   Content pages use .b24-h1 + .b24-card.b24-solve + .b24-bullets + .b24-quote.
+   ========================================================================== */
+
+/* cover column + top row (logo pinned right). Position:relative so the person
+   (.b24-ig-figure, absolute) is placed against the page, free to overlap the
+   plate and rise to the logo line without being clipped. (.page is relative.) */
+.b24-ig-cover  { gap: 0; }
+.b24-ig-head   { display: flex; align-items: center; justify-content: flex-end;
+                 margin-bottom: 26px; flex: 0 0 auto; position: relative; z-index: 3; }
+.b24-ig-head .b24-logo { font-size: 34px; }
+
+/* Backing PLATE — a rounded rectangle filled with the shared dark-navy gradient.
+   Used for the cover person-plate and the closing photo band. Height is set
+   inline per use. It stays in normal flow; the figure floats over it. */
+.b24-ig-plate {
+  position: relative; flex: 0 0 auto;
+  border-radius: 32px; background: var(--b24-ig-navy);
+}
+
+/* FIGURE — a transparent cutout person/people sitting ON TOP of a plate, never
+   clipped by it. Absolute against the .page; position with inline top/bottom +
+   height + left/transform. z-index above the plate, below the header logo. */
+.b24-ig-figure {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: auto; object-fit: contain; z-index: 2;
+}
+
+/* TITLE plate — dark-navy gradient, white type. It HUGS its content and is
+   pinned to the bottom of the cover (margin-top:auto); no filler space. The
+   title row holds the display title (left) and the green pill (right), aligned
+   by their TOP edges. */
+.b24-ig-titlecard {
+  position: relative; flex: 0 0 auto; margin-top: 0;
+  border-radius: 32px; background: var(--b24-ig-navy);
+  padding: 40px 48px 44px; color: #fff;
+}
+.b24-ig-titlecard .b24-display,
+.b24-ig-titlecard .b24-lead,
+.b24-ig-titlecard p, .b24-ig-titlecard strong { color: #fff; }
+.b24-ig-titlecard .b24-display { margin: 0; }
+.b24-ig-titlecard .b24-lead { margin: 22px 0 0; max-width: 96%; opacity: .96; }
+/* title + pill on one row, aligned by their top edge */
+.b24-ig-titlerow { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.b24-ig-titlerow .b24-pill { flex: 0 0 auto; margin-top: 6px; }
+
+/* Footer for guide content pages — just a centered logo (a bit larger), no rule
+   line, no page number. Use on middle pages that have room; not first / last. */
+.b24-ig-foot { margin-top: auto; display: flex; justify-content: center;
+               align-items: center; padding-top: 24px; flex: 0 0 auto; }
+.b24-ig-foot .b24-logo { font-size: 30px; }
+
+/* 3-D brand star (raster) scattered around the cover person / closing people.
+   Position each with inline top/left/right/bottom + width; rotate a touch. */
+.b24-ig-star { position: absolute; z-index: 3; width: 64px; height: auto;
+               pointer-events: none; }
+
+/* Emphasis inside guide copy — to stress part of a sentence, make it BOLD in the
+   SAME size, coloured white or brand green. No coloured underline / squiggle.
+   Meant for the dark plates (cover title plate, navy surfaces): green pops, white
+   lifts. On light content pages emphasise with a plain <strong> in navy instead. */
+.page--guide .b24-em--white { font-weight: 700; color: #FFFFFF; }
+.page--guide .b24-em--green { font-weight: 700; color: #BDF300; }

@@ -8,3 +8,14 @@ __pycache__/
 # Local render output (generated files should not be committed)
 /output/
 *.tmp
+
+# Packaged skill build-artifacts (сборка, не исходники)
+*.skill
+
+# Junk / временные бэкапы
+_to_delete/
+
+# Local render output (готовые выгрузки)
+*.pdf
+slide-*.png
+story-*.png
