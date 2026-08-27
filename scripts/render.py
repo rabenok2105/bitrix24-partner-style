@@ -3,6 +3,7 @@
 Render a Bitrix24 brand-content HTML file to its final asset.
 
   A4 (portrait / landscape) -> PDF
+  Industry Guide (1080x1350 vertical) -> one multi-page PDF
   Social (LinkedIn square / Instagram story) -> one PNG per slide
 
 The script wires up the bundled design-system assets for you: it points the
@@ -12,11 +13,12 @@ HTML you author only needs the <section class="page ..."> blocks — no need to
 worry about stylesheet paths or @page rules.
 
 Usage:
-  python3 render.py INPUT.html --format {a4,a4-land,li,story} [--out OUT] [--scale 2]
+  python3 render.py INPUT.html --format {a4,a4-land,guide,li,story} [--out OUT] [--scale 2]
 
 Examples:
   python3 render.py guide.html   --format a4         -> guide.pdf
   python3 render.py handout.html --format a4-land    -> handout.pdf
+  python3 render.py industry.html --format guide     -> industry.pdf (multi-page 1080x1350)
   python3 render.py carousel.html --format li        -> carousel-01.png, -02.png ...
   python3 render.py story.html   --format story --scale 2  -> story-01.png (2160x3840)
 """
@@ -34,6 +36,7 @@ KIT = ASSETS / "bitrix24-kit.css"
 FORMATS = {
     "a4":      ("A4 portrait",     False),
     "a4-land": ("297mm 210mm",     False),
+    "guide":   ("1080px 1350px",   False),   # Industry Guide — multi-page vertical PDF
     "li":      ("1080px 1080px",   True),
     "story":   ("1080px 1920px",   True),
 }
@@ -59,13 +62,21 @@ def find_chrome():
     sys.exit("ERROR: Chrome/Chromium not found. Install Google Chrome, or set it on PATH.")
 
 def prepare_html(src_html: str, page_size: str) -> str:
-    """Inject <base> (so assets resolve), the kit stylesheet if absent, and @page."""
-    base_href = ASSETS.as_uri() + "/"
-    inject = f'<base href="{base_href}">\n'
-    if "bitrix24-kit.css" not in src_html:
-        inject += '<link rel="stylesheet" href="bitrix24-kit.css">\n'
-    inject += f'<style>@page {{ size: {page_size}; margin: 0; }} @media screen{{body{{padding:0}}}}</style>\n'
+    """Inject <base> + the kit stylesheet (early), and @page + shadow reset (late).
 
+    The @page rule and shadow reset are injected right before </head> so they land
+    AFTER any stylesheet the document links itself (including bitrix24-kit.css,
+    which carries a default `@page { size: A4 }`). Later same-specificity rules
+    win, so the chosen format's page size always overrides the kit default — even
+    when the document self-links the kit (e.g. the living templates)."""
+    base_href = ASSETS.as_uri() + "/"
+    # --- early: <base> so assets resolve, and the kit if the doc didn't link it ---
+    head_open = f'<base href="{base_href}">\n'
+    if "bitrix24-kit.css" not in src_html:
+        head_open += '<link rel="stylesheet" href="bitrix24-kit.css">\n'
+
+    # --- late: @page size for the chosen format, then the print-safe shadow reset ---
+    head_close = f'<style>@page {{ size: {page_size}; margin: 0; }} @media screen{{body{{padding:0}}}}</style>\n'
     # Print-safe shadow reset. A soft CSS box-shadow is rasterized into a HARD GREY
     # RECTANGLE by common PDF viewers (macOS Preview / Quick Look) — an ugly box
     # around buttons, tiles, cards and tables. (Chrome writes a correct shadow and
@@ -73,7 +84,7 @@ def prepare_html(src_html: str, page_size: str) -> str:
     # and only appears when the user opens the PDF.) So we strip component shadows in
     # every rendered output and preserve container definition with a hairline border.
     # !important makes this win regardless of stylesheet order. See DESIGN_SYSTEM.md.
-    inject += (
+    head_close += (
         '<style>'
         '.b24-btn,.b24-tile,.b24-tag,.b24-pill,.b24-card,.b24-card--white,'
         '.b24-card--navy,.b24-table-wrap,.b24-compare,.b24-solve,.b24-quote'
@@ -83,10 +94,14 @@ def prepare_html(src_html: str, page_size: str) -> str:
     )
 
     if re.search(r"<head[^>]*>", src_html, re.I):
-        return re.sub(r"(<head[^>]*>)", r"\1\n" + inject, src_html, count=1, flags=re.I)
+        out = re.sub(r"(<head[^>]*>)", r"\1\n" + head_open, src_html, count=1, flags=re.I)
+        if re.search(r"</head>", out, re.I):
+            return re.sub(r"(</head>)", head_close + r"\1", out, count=1, flags=re.I)
+        return out + head_close
     if re.search(r"<html[^>]*>", src_html, re.I):
-        return re.sub(r"(<html[^>]*>)", r"\1<head>" + inject + "</head>", src_html, count=1, flags=re.I)
-    return "<head>" + inject + "</head>" + src_html
+        return re.sub(r"(<html[^>]*>)", r"\1<head>" + head_open + head_close + "</head>",
+                      src_html, count=1, flags=re.I)
+    return "<head>" + head_open + head_close + "</head>" + src_html
 
 def to_pdf(chrome: str, html_path: Path, pdf_path: Path):
     cmd = [chrome, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",

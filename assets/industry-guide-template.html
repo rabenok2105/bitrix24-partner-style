@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitrix24 Industry Guide — Reference Template (1080×1350)</title>
+<link rel="stylesheet" href="bitrix24-kit.css">
+<style>
+  /* Screen-only helper so you can see the sheets stacked. */
+  @media screen { body { padding: 24px 0; } }
+</style>
+</head>
+<!--
+  ============================================================================
+  BITRIX24 INDUSTRY GUIDE — living reference (Construction & Remodeling)
+  ----------------------------------------------------------------------------
+  Format:  <section class="page page--guide">  = one 1080×1350 sheet.
+  Render:  python3 scripts/render.py industry-guide-template.html --format guide
+           -> industry-guide-template.pdf  (one multi-page PDF)
+
+  Sub-brand: BITRIX24 CORPORATE. Locked palette:
+    • page background         #F5FAFF
+    • dark surfaces (tiles, cover plates, closing band)  var(--b24-ig-navy)
+    • large content plates     #01447B, alternating 4 % / 10 % opacity
+    • regular text             #002153 @ 80 %
+  Body copy ~24px, labels ~19px. Fit 2 OR 3 pain→tools→outcome blocks per page
+  (count & length vary by content / localization). HARD RULE: the last block must
+  never touch the page bottom — always leave a bottom margin. 3 blocks only fit
+  when they still leave that margin; if they don't (as with this content), use 2
+  per page. A 2-block page keeps the centered logo footer (.b24-ig-foot); a full
+  3-block page drops it. This guide is 2 blocks/page — each ends with clear margin.
+  Every "Bitrix24 Tools" name is a real, localizable <a> link — see LOCALIZATION.md.
+  ============================================================================
+-->
+<body>
+
+<!-- ========================================================================
+     PAGE 1 — COVER
+     logo (top-right) · a short dark-navy person plate pushed to the bottom
+     (free space above) with the cutout person floating on top (head at the
+     logo line, not clipped) + 3 green stars · a hug-content title plate pinned
+     to the bottom, its pill top-aligned with the title.  No bottom logo.
+     ===================================================================== -->
+<section class="page page--guide b24-ig-cover">
+  <div class="b24-ig-head">
+    <span class="b24-logo"><img src="bitrix24-logo/logo-ink.svg" alt="Bitrix24"></span>
+  </div>
+
+  <!-- backing plate — a shorter band (pushed to the bottom via margin-top:auto so
+       free space is left above it near the logo). The person is a CHILD of the
+       plate with bottom:0, so its bottom always sits flush on the plate bottom
+       (no gap); it overflows upward (head at the logo line, not clipped).
+       ★ INDUSTRY PERSON — swap this src per guide (see assets/PEOPLE.md): an
+       industry-appropriate cutout (attire that reads as the industry) ALWAYS
+       holding a device — phone / laptop / tablet. -->
+  <div class="b24-ig-plate" style="height:444px; margin-top:auto; margin-bottom:24px;">
+    <img class="b24-ig-figure" src="bitrix24-images/people/man-asian-suit.png" alt=""
+         style="bottom:0; height:806px;">
+  </div>
+  <!-- 3 green stars around the person, varied sizes, slightly rotated -->
+  <img class="b24-ig-star" src="bitrix24-images/star-3d.png" alt=""
+       style="top:150px; left:74px; width:92px; transform:rotate(-14deg); z-index:1;">
+  <img class="b24-ig-star" src="bitrix24-images/star-3d.png" alt=""
+       style="top:300px; right:84px; width:60px; transform:rotate(11deg);">
+  <img class="b24-ig-star" src="bitrix24-images/star-3d.png" alt=""
+       style="top:632px; left:120px; width:46px; transform:rotate(18deg);">
+
+  <!-- title plate: hugs content, pinned to the bottom; pill top-aligned to title -->
+  <div class="b24-ig-titlecard">
+    <div class="b24-ig-titlerow">
+      <h1 class="b24-display">Construction &amp;<br>Remodeling</h1>
+      <span class="b24-pill">Quick Guide</span>
+    </div>
+    <p class="b24-lead">
+      Bitrix24 is an all-in-one platform designed to solve the key challenges of
+      construction and remodeling companies: lead management, subcontractor
+      coordination, and <span class="b24-em--green">on-site project execution</span>.
+    </p>
+  </div>
+</section>
+
+<!-- ========================================================================
+     PAGE 2 — CHALLENGES (section title + 2 cards)  ·  centered logo footer
+     Card tints alternate down the whole document: t4, t10, t4, t10, …
+     ===================================================================== -->
+<section class="page page--guide">
+  <h1 class="b24-h1">Key Challenges in Construction<br>and How Bitrix24 Solves Them</h1>
+
+  <div class="b24-card b24-solve b24-card--t4">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/lead-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Leads from multiple channels are getting lost</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/crm/">CRM</a>,
+          <a href="https://www.bitrix24.com/tools/crm/">Contact Center</a>,
+          <a href="https://www.bitrix24.com/tools/crm/">CRM Forms</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">All leads from your website, ads, and referrals automatically flow into a
+          single CRM — with no losses or duplicates. Better control of incoming leads and higher
+          conversion rates.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-card b24-solve b24-card--t10">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/chart-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Lack of visibility into project and client status</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/crm/">Tasks in CRM</a>,
+          <a href="https://www.bitrix24.com/tools/tasks_and_projects/">Tasks in Projects</a>,
+          <a href="https://www.bitrix24.com/tools/tasks_and_projects/">Kanban</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">Sales and project managers can track the real-time status of each client and
+          project, with all tasks, responsible parties, and deadlines clearly defined within a single
+          system.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-ig-foot">
+    <span class="b24-logo"><img src="bitrix24-logo/logo-ink.svg" alt="Bitrix24"></span>
+  </div>
+</section>
+
+<!-- ========================================================================
+     PAGE 3 — CHALLENGES (2 cards)  ·  centered logo footer
+     ===================================================================== -->
+<section class="page page--guide">
+  <div class="b24-card b24-solve b24-card--t4">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/shield-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Challenges in managing subcontractors</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/communications/">Extranet Users</a>,
+          <a href="https://www.bitrix24.com/tools/communications/">Access Permissions</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">Subcontractors have access only to their tasks, with permissions automatically
+          revoked upon project completion. Ensures full control and secure collaboration.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-card b24-solve b24-card--t10">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/folder-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Disorganized project documentation</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/communications/">Drive</a>,
+          <a href="https://www.bitrix24.com/tools/communications/">Online Documents</a>,
+          <a href="https://www.bitrix24.com/tools/communications/">File version storage</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">Project documentation is centralized and linked to each client and job site,
+          enabling better organization, fewer errors, and instant access to information.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-ig-foot">
+    <span class="b24-logo"><img src="bitrix24-logo/logo-ink.svg" alt="Bitrix24"></span>
+  </div>
+</section>
+
+<!-- ========================================================================
+     PAGE 4 — CHALLENGES (2 cards)  ·  centered logo footer
+     ===================================================================== -->
+<section class="page page--guide">
+  <div class="b24-card b24-solve b24-card--t4">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/mobile-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Lack of real-time information from the field</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/">Mobile App</a>,
+          <a href="https://www.bitrix24.com/tools/communications/">Notifications</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">Receive real-time updates from the field, with tasks kept current, photos and
+          documents always accessible, and immediate alerts for changes or delays.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-card b24-solve b24-card--t10">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/trend-up-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Limited control over project timelines and profitability</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/crm/analytics-and-reports.php">CRM Analytics</a>,
+          <a href="https://www.bitrix24.com/tools/crm/analytics-and-reports.php">Dashboards in BI Builder</a>,
+          <a href="https://www.bitrix24.com/tools/tasks_and_projects/">Work Reports</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">Full control over project timelines, team workload, and profitability. Enhanced
+          visibility leads to better financial outcomes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-ig-foot">
+    <span class="b24-logo"><img src="bitrix24-logo/logo-ink.svg" alt="Bitrix24"></span>
+  </div>
+</section>
+
+<!-- ========================================================================
+     PAGE 5 — CHALLENGES (2 cards)  ·  centered logo footer
+     ===================================================================== -->
+<section class="page page--guide">
+  <div class="b24-card b24-solve b24-card--t4">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/process-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Manual, slow, and error-prone handoff from sales to project execution</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/tasks_and_projects/">Workgroups and Projects</a>,
+          <a href="https://www.bitrix24.com/tools/tasks_and_projects/">Automation in Scrum</a>,
+          <a href="https://www.bitrix24.com/tools/hr_automation/">Workflow Autorun</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">When a deal is closed, Bitrix24 automatically creates the project with all tasks,
+          responsible parties, and deadlines. This enables a faster, more organized, and fully
+          controlled project kickoff.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-card b24-solve b24-card--t10">
+    <div class="b24-tile b24-solve__tile"><img src="bitrix24-images/icons-solid/chats-white.svg" alt=""></div>
+    <div class="b24-solve__grid">
+      <div class="b24-solve__pain">
+        <p class="b24-label">Business pain</p>
+        <p class="b24-p"><span class="b24-strong">Lack of coordination between field and office teams</span></p>
+      </div>
+      <div class="b24-solve__tools">
+        <p class="b24-label">Bitrix24 Tools</p>
+        <p class="b24-p"><a href="https://www.bitrix24.com/tools/communications/">Group Chats</a>,
+          <a href="https://www.bitrix24.com/tools/communications/">Shared Calendars</a>,
+          <a href="https://www.bitrix24.com/tools/tasks_and_projects/">Flows</a></p>
+      </div>
+      <div class="b24-solve__outcome">
+        <p class="b24-label">Practical Outcome</p>
+        <p class="b24-p">Field and office teams stay aligned in real time — with shared chats, calendars,
+          and automated flows keeping everyone on the same page across every job site.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="b24-ig-foot">
+    <span class="b24-logo"><img src="bitrix24-logo/logo-ink.svg" alt="Bitrix24"></span>
+  </div>
+</section>
+
+<!-- ========================================================================
+     PAGE 6 — KEY VALUE (title · bullets · quote · people-on-plate band)
+     Last page: NO bottom logo.
+     ===================================================================== -->
+<section class="page page--guide">
+  <h1 class="b24-h1">Key Value for Construction<br>and Renovation Companies</h1>
+
+  <ul class="b24-bullets">
+    <li>A single system for sales, projects, subcontractors, and documentation</li>
+    <li>Fewer delays and overlooked tasks</li>
+    <li>Improved communication between office and field teams</li>
+    <li>Full control and visibility for business owners</li>
+  </ul>
+
+  <div class="b24-quote">
+    Without external tools or additional integrations, Bitrix24 centralizes everything in one system
+    — from the first client contact to final project delivery — providing greater control,
+    predictability, and profitability.
+  </div>
+
+  <!-- closing band: backing plate with the people as a CHILD (bottom:0, flush on
+       the plate bottom, no gap; +40%, same visual size as the cover person).
+       ★ INDUSTRY PEOPLE — swap this src per guide (see assets/PEOPLE.md): 1–2
+       industry-appropriate people, each holding a device (phone / laptop /
+       tablet); vary the device from the cover person. -->
+  <div class="b24-ig-plate" style="height:320px; margin-top:auto;">
+    <img class="b24-ig-figure" src="bitrix24-images/people/duo-team.png" alt=""
+         style="bottom:0; height:840px;">
+  </div>
+  <!-- green stars around the people -->
+  <img class="b24-ig-star" src="bitrix24-images/star-3d.png" alt=""
+       style="bottom:180px; left:88px; width:84px; transform:rotate(-11deg);">
+  <img class="b24-ig-star" src="bitrix24-images/star-3d.png" alt=""
+       style="bottom:600px; right:104px; width:58px; transform:rotate(13deg);">
+  <img class="b24-ig-star" src="bitrix24-images/star-3d.png" alt=""
+       style="bottom:320px; right:150px; width:40px; transform:rotate(-6deg); z-index:1;">
+</section>
+
+</body>
+</html>
