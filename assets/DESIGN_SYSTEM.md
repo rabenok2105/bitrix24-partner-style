@@ -217,6 +217,7 @@ One brand, several canvases. Add a size modifier next to `.page`; the palette cl
 | A4 landscape | `.page--a4-land` | 297 × 210 mm | PDF — doc must also set `@page { size: A4 landscape; margin:0 }` |
 | **Industry Guide** | `.page--guide` | 1080 × 1350 px | **multi-page PDF** (all sheets in one file) |
 | LinkedIn square | `.page--li` | 1080 × 1080 px | PNG per slide |
+| **LinkedIn post (4:5)** | `.page--post` | 1080 × 1350 px | **JPEG** per slide (the Success Story post series) |
 | Instagram Story | `.page--story` | 1080 × 1920 px | PNG per slide |
 
 - **Industry Guide (`guide`)** is a **vertical multi-page PDF** — see **§5b**. It is the one 1080 px
@@ -329,6 +330,89 @@ navy `#01447B` (not gradient-filled — a flat colour avoids the clip-to-text bo
 `.b24-ig-foot` (centred, enlarged logo); the card tints `.b24-card--t4` / `.b24-card--t10`;
 guide-sized tuning of `.b24-card`, `.b24-solve*`, `.b24-tile`, `.b24-bullets`, `.b24-quote`,
 and solid `.b24-h1`. Everything else — pills, logo — is the shared corporate system.
+
+---
+
+### 5c. Success Story — one narrative, TWO synchronized outputs  (`.page` + `.page--post`)
+
+A **partner testimonial** produced as **two deliverables at once**, from the *same*
+interview: a multi-page **PDF** and a series of **LinkedIn JPEG posts**. This is a
+**Partners** direction — it uses `.page--sky` / `.page--partner-navy` and the
+partner lockup, plus the `.b24-ss-*` components (kit §15). **Living references:**
+`success-story-pdf-template.html` and `success-story-posts-template.html` (both
+filled with the Askarasoft case), plus `success-story-pdf-template-reyada.html` (the Reyada case, showing the extended §15.x layouts); blank starters `success-story-*-skeleton.html`.
+
+**★ Understand the difference — PDF vs LinkedIn. They are NOT the same file at two
+sizes; they are two media with different jobs:**
+
+| | **PDF** (`--format a4`) | **LinkedIn posts** (`--format post`) |
+|---|---|---|
+| Canvas | A4 portrait `.page` (210×297 mm) | `.page--post` 1080×1350 px (4:5) |
+| File(s) | ONE multi-page PDF | a SERIES — one **JPEG per post** (~10) |
+| Density | several Q&A per page | **one idea per slide**, bigger type |
+| Header | partner runhead + page number on every sheet | plain `Bitrix24` wordmark on the cover only |
+| Speaker | a dedicated intro page + quote cards | facts sit **on the cover** (`.b24-ss-personcard`) |
+| CTA | a **real clickable** green "Sign up" link | ends "**use the link in the description**" (`.b24-ss-note`) — a post carries no clickable button |
+| Job | send / print / email as a document | drip or carousel on the feed |
+
+Author them as two HTML files (they share every `.b24-ss-*` component). For the
+posts, **one `.page--post` per post** — the render script rasterizes each page to
+its own JPEG.
+
+**Page / post sequence** (both follow the same arc; the PDF merges some, the posts
+split one-idea-per-slide):
+cover → story intro → beginning of cooperation → work process / first clients →
+lead generation → results → advantages / impact → advice → **case summary**
+(facts + 3 stat cards + optional awards) → **CTA**.
+
+**★ Cover photo — a NORMAL photo tinted by an OVERLAY, exactly like Figma.** The
+partner sends an ordinary photo (full colour, usually with a background). You do
+**not** recolour it — the brand navy comes from the blend: `.b24-ss-photo` sits
+over the cover's navy gradient with **`mix-blend-mode: overlay`**, which tints the
+photo into the monochrome-navy cover. So the image stays a real photo; the tone is
+the overlay. `scripts/prep_cover_photo.py PHOTO.jpg --name <slug>` just **removes
+the background** (a clean cutout blends best) and cuts a round avatar — a photo
+*with* its background works too (`--keep-bg`; the overlay still tints it and the
+inner-edge fade hides the seam). Then place `<img class="b24-ss-photo …">` and
+**pick the framing that suits THAT photo** — `--right` (default), `--top`
+(upper-centre, title below), `--bottom` (person low, title on top), `--wide` (two
+people). Match the layout to the photo; don't force it into one fixed position. **The photo comes from the partner's brief (ТЗ)** and is the SAME person shown on the **cover** and in the **round avatar** (`.b24-ss-speaker__avatar`) — the avatar being a navy brand disc with that person's cut-out face composited on it, not a rectangular photo masked to a circle. A further placement variant is a **city / buildings image with the person laid on top** (the page-7 band — `.b24-ss-band` plus a cut-out person) — use it when the brief supplies such a photo.
+
+**★ Awards are OPTIONAL and partner-supplied.** The hexagon award badges are a ready
+image the partner attaches (`bitrix24-images/success-story/awards-<slug>.png`) — you
+only place it in the `.b24-ss-awards` block on the case-summary page/post. **Many
+stories have no awards** — delete the whole block then; the stat cards stand alone.
+
+**★ PDF content pages (A4) — a two-column magazine.** Take the copy from the Figma
+"A4 - N" frames (it is text-heavy — reproduce the real answers, don't invent).
+Each content page: the partner lockup **top-LEFT, small** (`.b24-ss-loghead`, no
+runhead caption and no rule line), the `.b24-ss-banner`, then **two EQUAL columns**
+(`.b24-ss-cols`, `1fr 1fr`, 14 mm gutter). Body copy is **justified**; the question
+is a bold navy `.b24-qa__q`, the answer a `.b24-qa__a`. Content flows column 1 then
+column 2 (one Q&A per column; a single long answer flows across both with
+`.b24-ss-flow2`). The **pull-quote sits inside a column** (left or right column); its **text is always
+centre-aligned** — never flush-left or flush-right (it just must not stretch centred
+across the whole page). **No footer, no page number, no bottom logo.** Tool chips
+use a solid `*-white` glyph in a blue gradient circle (`.b24-ss-chip__ic`), labels
+SemiBold; the **page-3 speaker avatar is a dark brand-navy disc with the person's
+background-removed face cut out and composited on top** (azure→deep-navy radial disc, cut-out
+head-and-shoulders bottom-aligned — never a plain cropped photo on a coloured circle), set in the
+blue gradient ring (`.b24-ss-speaker__avatar`); the name SemiBold navy. Reusable question set + this case's answers:
+`success-story-content.md`. **Banners (posts) do NOT use this** — they keep the
+centred composition with a uniform **70 px** gap from the banner heading to the text.
+
+**Signature components (kit §15):** `.b24-ss-cover` + `.b24-ss-photo` (duotone cover
+photo, edge-fade), `.b24-ss-banner` (rounded navy-gradient section heading), `.b24-qa`
+(question/answer pairs), `.b24-ss-speaker` / `.b24-ss-personcard` (speaker facts),
+`.b24-ss-pquote` (big quote-mark pull-quote), `.b24-ss-chips` (product tags),
+`.b24-ss-channels` (lead-gen channel cards), `.b24-ss-stats` (icon + number + label),
+`.b24-ss-facts` (label/value rows), `.b24-ss-awards` (optional), `.b24-ss-ctacard`
+(closing card — green link on PDF, "link in the description" on posts), `.b24-ss-orbit`
+(the partner-community graphic).
+
+**Extended layouts (kit §15.x — generalised from the Reyada case):** `.b24-ss-factpills` (vertical azure metric pills, e.g. “110+ clients”), `.b24-ss-certs` (deep-navy card holding certificate thumbnails, 2 top + 1 centred), `.b24-ss-checkband` + `.b24-ss-checkpill` (a wide photo band with floating check-badge role pills), and `.b24-ss-emblem` (a centred seal such as “Authorized Training Provider”). The same direction also supports a **full-bleed pre-toned cover** (one image already on the navy gradient, title overlaid — no blend needed), a **multi-paragraph intro**, the **speaker card top-LEFT** with the Q&A wrapping beside it, and the **buildings + person band**: the **city visual is its own layer pinned to the bottom**, and a **cut-out person is placed on top ONLY when the brief supplies a good photo** — sized to stay **fully inside the page, never clipped** by the edge (person centred). The certificate thumbnails, the emblem/seal and the check-band photo are **partner-supplied CONTENT** — like the award badges: swap the images (and the pill/label text) per story, the kit only fixes the **placement**. **Text sizes on that template are taken straight from Figma** (each Figma px ×1.334, since Figma's 595-px page renders here as an ~794-px A4), so the copy fills the page exactly as in the source frames rather than at the kit's default density. Reference: `success-story-pdf-template-reyada.html`.
+
+**Text-treatment patterns (kit §15.x5 — generalised from the Figma library frames A4-38/63/84/98/106/135):** `.b24-ss-steps`/`.b24-ss-step` (numbered advice — navy circle + white number, bold lead-in then regular justified text, 2-col staggered), `.b24-ss-checklist` (result bullets with a navy **circle-check** marker instead of a dot; `--2col`), `.b24-ss-iconcard` (white card, big dark-navy **solid** icon centred above a caption), `.b24-ss-insight` (light-azure soft card — small navy icon badge + a line with a **bold** figure, for inline success numbers), `.b24-ss-statdisc` (horizontal stat card — big navy disc holds the figure at left, label at right; a calmer alternative to the vertical `.b24-ss-stat` trio), and `.b24-ss-advlabel` (navy pill sub-header such as “Advice 1” before a paragraph). Rules that carry across all of them: list markers are **circled numbers or check-badges, never plain dots**; emphasis is **bold** for terms/figures and **bold-italic** for a standout sentence; icons are flat **dark-navy solid**; sizes use the Figma×1.334 scale. Live reference: `assets/success-story-pdf-patterns-demo.html`. **Use these SELECTIVELY, not on every page.** They are variety tools: reach for one only when the copy genuinely fits its structure (a real step sequence, a list of wins, parallel short insights, headline figures) AND the spread needs breaking up. A page of ordinary Q&A prose should stay prose; forcing a pattern where the text doesn't fit, or repeating the same block page after page, reads worse than plain paragraphs. Aim for at most one or two of these accents per page, and let some pages carry none. **Stat / fact icons are flat dark-navy SOLID glyphs on NO tile** (bare `#063883` silhouette, from `bitrix24-images/icons-solid/*-navy.svg`) — never a light glyph on a navy square — and the **stat numbers are small and weight-600** (`.b24-ss-stat__num`), so the icon and label carry the card, not an oversized figure.
 
 ---
 

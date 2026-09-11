@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Success Story — PDF skeleton</title>
+<link rel="stylesheet" href="bitrix24-kit.css">
+<!-- BLANK PDF SKELETON. Fill the {{PLACEHOLDERS}}, duplicate the content page for
+     each interview theme, delete blocks you don't need. Render:
+        python3 scripts/render.py assets/success-story-pdf-skeleton.html --format a4
+     Prep the cover photo first:
+        python3 scripts/prep_cover_photo.py PHOTO.jpg --name {{slug}}
+     The filled example is success-story-pdf-template.html. -->
+<style>
+  .ss-2col { display:grid; grid-template-columns:1.15fr .85fr; gap:var(--b24-s8); align-items:start; }
+  .page--sky { background: #F5FAFF; }   /* light PDF pages: flat #F5FAFF backdrop */
+  .b24-ss-stat,.b24-ss-channel,.b24-ss-ctacard{box-shadow:none}
+  .b24-ss-stat,.b24-ss-channel{border:1px solid var(--b24-line)}
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER --------------------------------------------------------------->
+<section class="page page--flush b24-ss-cover">
+  <img class="b24-ss-photo b24-ss-photo--right" src="bitrix24-images/success-story/speaker-{{slug}}.png" alt="{{Speaker name}}">
+  <div class="b24-ss-cover__body">
+    <span class="b24-logo b24-logo--light" style="font-size:17px"><img src="bitrix24-logo/logo-white.svg"><span class="b24-logo__sub">Partners</span></span>
+    <div class="b24-ss-title b24-ss-title--center">
+      <span class="b24-ss-eyebrow">Success Stories</span>
+      <h1 class="b24-display" style="margin-top:20px">{{Cover headline — the result, e.g. "How we grew our revenue 10x with Bitrix24"}}</h1>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · STORY INTRO (navy) -------------------------------------------------->
+<section class="page page--partner-navy" style="justify-content:center;text-align:center">
+  <span class="b24-logo b24-logo--light" style="font-size:16px;align-self:center;margin:8mm auto auto"><img src="bitrix24-logo/logo-white.svg"><span class="b24-logo__sub">Partners</span></span>
+  <div style="margin:auto 0">
+    <h1 class="b24-display" style="font-size:36px">{{Story title}}:<br><span class="b24-hl">{{The Story of PARTNER}}</span></h1>
+    <p class="b24-lead" style="max-width:74%;margin:22px auto 0">{{One-paragraph intro: who you interviewed, where, and the headline outcome.}}</p>
+  </div>
+  <span style="margin-top:auto"></span>
+</section>
+
+<!-- 3 · CONTENT PAGE (duplicate per theme) ---------------------------------->
+<section class="page page--sky">
+  <div class="b24-runhead"><span>Bitrix24 Partners · Success Story</span><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">{{Section title, e.g. Beginning of cooperation}}</div>
+  <div class="ss-2col">
+    <div>
+      <div class="b24-qa"><p class="b24-qa__q">{{Question 1?}}</p><p class="b24-qa__a">{{Answer 1.}}</p></div>
+      <div class="b24-qa"><p class="b24-qa__q">{{Question 2?}}</p><p class="b24-qa__a">{{Answer 2.}}</p></div>
+      <div class="b24-ss-pquote">{{Optional pull-quote — the punchiest line.}}</div>
+    </div>
+    <div class="b24-ss-speaker">
+      <div class="b24-ss-speaker__head">
+        <img src="bitrix24-images/success-story/speaker-{{slug}}-avatar.png" alt="">
+        <div><div class="b24-ss-speaker__name">{{Speaker name}}</div><div class="b24-ss-speaker__meta">{{Role, Company}}</div></div>
+      </div>
+      <ul><li>{{Fact}}</li><li>{{Fact}}</li><li>{{Country}}</li></ul>
+    </div>
+  </div>
+  <div class="b24-fill"></div>
+  <!-- optional: Bitrix24 tools they use -->
+  <p class="b24-label">Bitrix24 tools they rely on</p>
+  <div class="b24-ss-chips">
+    <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/crm.svg">CRM</span>
+    <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/calendar.svg">Tasks &amp; Projects</span>
+    <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/ai.svg">CoPilot</span>
+  </div>
+  <div class="b24-footer"><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"><span>Page <span class="b24-pageno"></span></span></div>
+</section>
+
+<!-- 3b · CONTENT PAGE with lead-gen CHANNELS (optional layout) --------------->
+<section class="page page--sky">
+  <div class="b24-runhead"><span>Bitrix24 Partners · Success Story</span><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">{{Lead generation}}</div>
+  <div class="ss-2col">
+    <div><div class="b24-qa"><p class="b24-qa__q">{{Question?}}</p><p class="b24-qa__a">{{Answer.}}</p></div></div>
+    <div class="b24-ss-channels">
+      <div class="b24-ss-channel"><div class="b24-ss-channel__label">{{Channel}}</div><img class="b24-ss-channel__photo" src="bitrix24-images/people/woman-headset.png"></div>
+      <div class="b24-ss-channel"><div class="b24-ss-channel__label">{{Channel}}</div><img class="b24-ss-channel__photo" src="bitrix24-images/people/man-suit.png"></div>
+    </div>
+  </div>
+  <div class="b24-footer"><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"><span>Page <span class="b24-pageno"></span></span></div>
+</section>
+
+<!-- 4 · CASE SUMMARY -------------------------------------------------------->
+<section class="page page--sky">
+  <div class="b24-runhead"><span>Bitrix24 Partners · Success Story</span><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Case summary</div>
+  <div class="b24-ss-facts">
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Started in:</span><span class="b24-ss-facts__v">{{year}}</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Gold Partner status obtained in:</span><span class="b24-ss-facts__v">{{year}}</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Regions / countries served:</span><span class="b24-ss-facts__v">{{regions}}</span></div>
+  </div>
+  <div class="b24-ss-stats">
+    <div class="b24-ss-stat"><svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="16" r="7"/><path d="M5 41c0-8 6-13 12-13s12 5 12 13"/><path d="M33 12a7 7 0 0 1 0 12"/><path d="M36 28c5 1 9 6 9 13"/></svg><div class="b24-ss-stat__num">{{30+}}</div><div class="b24-ss-stat__lbl">{{employees}}</div></div>
+    <div class="b24-ss-stat"><svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34 L18 22 L26 30 L42 12"/><path d="M31 12h11v11"/></svg><div class="b24-ss-stat__num">{{10x}}</div><div class="b24-ss-stat__lbl">{{revenue growth}}</div></div>
+    <div class="b24-ss-stat"><svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40V24"/><path d="M20 40V16"/><path d="M32 40V26"/><path d="M44 40V10"/></svg><div class="b24-ss-stat__num">{{7x}}</div><div class="b24-ss-stat__lbl">{{team growth}}</div></div>
+  </div>
+  <!-- OPTIONAL awards — many stories have none; delete this block if so. Drop the
+       partner-supplied image at bitrix24-images/success-story/awards-{{slug}}.png -->
+  <div class="b24-ss-awards" style="margin-top:var(--b24-s8)"><p class="b24-label">Awards:</p><img src="bitrix24-images/success-story/awards-{{slug}}.png" alt="Awards"></div>
+  <div class="b24-footer"><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"><span>Page <span class="b24-pageno"></span></span></div>
+</section>
+
+<!-- 5 · CTA (real clickable link) ------------------------------------------->
+<section class="page page--sky" style="justify-content:center">
+  <div class="b24-runhead"><span>Bitrix24 Partners · Success Story</span><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div style="margin:auto 0">
+    <h1 class="b24-display b24-center" style="font-size:34px;max-width:80%;margin:0 auto">Become a partner and start representing the world's most versatile and affordable CRM</h1>
+    <div class="b24-ss-benefits" style="margin:28px 0 34px">
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/unlock.svg">Free to enter</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/funnel.svg">Up to 50% commission</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/person.svg">Free leads</span>
+    </div>
+    <div class="b24-ss-ctacard">
+      <div class="b24-ss-ctacard__text">
+        <h2 class="b24-h2">Looking to achieve the same success with your business?</h2>
+        <p>Sign up for the Bitrix24 Partner Program.</p>
+        <a class="b24-btn b24-btn--lg" href="https://partners.bitrix24.com/">Sign up <span class="b24-btn__arrow">→</span></a>
+      </div>
+      <div class="b24-ss-ctacard__media"><img src="bitrix24-images/people/duo-team.png" alt=""></div>
+    </div>
+  </div>
+  <div class="b24-footer"><img class="b24-plogo b24-plogo--foot" src="bitrix24-logo/logo-partner-h.png"><span>Page <span class="b24-pageno"></span></span></div>
+</section>
+
+</body>
+</html>

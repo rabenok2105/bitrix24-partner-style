@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bitrix24 Partners — Success Story (LinkedIn posts)</title>
+<link rel="stylesheet" href="bitrix24-kit.css">
+<!-- LIVING REFERENCE — the LinkedIn / JPEG half of the "Success Story" direction.
+     Each <section class="page page--post"> is ONE post (1080×1350, 4:5). The
+     render script rasterizes each to its own JPEG:
+        python3 scripts/render.py assets/success-story-posts-template.html --format post
+     -> success-story-posts-template-01.jpg … -10.jpg
+     Same story as success-story-pdf-template.html, re-cut ONE idea per slide,
+     bigger type, speaker facts on the cover, and a "use the link in the
+     description" close instead of a clickable button. See DESIGN_SYSTEM.md §5c.
+     Paths are relative to assets/ (the render script sets <base> there). -->
+<style>
+  .b24-ss-stat, .b24-ss-channel, .b24-ss-ctacard { box-shadow: none; }
+  .b24-ss-stat, .b24-ss-channel { border: 1px solid var(--b24-line); }
+  .post-body { display:flex; flex-direction:column; height:100%; }
+  .page--sky { background: #F5FAFF; }   /* light posts: flat #F5FAFF backdrop */
+</style>
+</head>
+<body>
+
+<!-- ===================== POST 01 · COVER ===================== -->
+<section class="page page--post page--flush b24-ss-cover">
+  <img class="b24-ss-photo b24-ss-photo--right" src="bitrix24-images/success-story/speaker-askarasoft.png" alt="Michael Chandra">
+  <div class="b24-ss-cover__body">
+    <img src="bitrix24-logo/logo-white.svg" style="height:44px;align-self:flex-start" alt="Bitrix24">
+    <div class="b24-ss-title b24-ss-title--center">
+      <span class="b24-ss-eyebrow">Success Stories</span>
+      <h1 class="b24-display" style="margin-top:24px">How we grew our revenue 10x with Bitrix24</h1>
+    </div>
+    <div class="b24-ss-personcard">
+      <div class="b24-ss-personcard__head">
+        <img src="bitrix24-images/success-story/speaker-askarasoft-avatar.png" alt="">
+        <div>
+          <div class="b24-ss-personcard__name">Michael Chandra</div>
+          <div class="b24-ss-personcard__role">Director of Askarasoft</div>
+        </div>
+      </div>
+      <ul class="b24-ss-personcard__list">
+        <li>Bitrix24 partner since 2017</li>
+        <li>Indonesia</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POST 02 · BEGINNING OF COOPERATION ================= -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Beginning of cooperation</div>
+    <p class="b24-p">We have been a Bitrix24 partner since 2017. The Bitrix24 team provided technical
+      guidance, priority support, and leads. This helped us close sales much faster, even in the
+      first year.</p>
+    <div class="b24-ss-qwrap">
+      <div class="b24-ss-pquote">There was a growing demand for CRM solutions that could be flexibly adjusted</div>
+    </div>
+    <div class="b24-ss-chips">
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/crm.svg">CRM</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/calendar.svg">Tasks &amp; Projects</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/cart.svg">Sites &amp; Stores</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/messenger.svg">Collaboration</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/person.svg">HR &amp; Automation</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/ai.svg">CoPilot</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== POST 03 · GETTING FIRST CLIENTS ==================== -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Getting first clients</div>
+    <p class="b24-p">We started by building marketing materials on our social media and creating a
+      landing page. As a young company, we sold Bitrix24 as our main product and built credibility
+      by sharing case studies and success stories.</p>
+    <div class="b24-fill"></div>
+    <div class="b24-ss-channels" style="flex-direction:row">
+      <div class="b24-ss-channel" style="flex:1"><div class="b24-ss-channel__label">Webinars</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/woman-headset.png"></div>
+      <div class="b24-ss-channel" style="flex:1"><div class="b24-ss-channel__label">Social media</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/man-suit.png"></div>
+      <div class="b24-ss-channel" style="flex:1"><div class="b24-ss-channel__label">Landing page</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/woman-laptop.png"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== POST 04 · LEAD GENERATION PROCESS =================== -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Lead generation process</div>
+    <p class="b24-p">We promote our solution through regular webinars, social media, LinkedIn, paid
+      ads and SEO. Through YouTube we provide tutorials on Bitrix24, and we attend offline events to
+      reach more markets.</p>
+    <div class="b24-fill"></div>
+    <div class="b24-ss-channels" style="flex-direction:row;flex-wrap:wrap">
+      <div class="b24-ss-channel" style="flex:1 1 45%"><div class="b24-ss-channel__label">Paid ads</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/woman-laptop.png"></div>
+      <div class="b24-ss-channel" style="flex:1 1 45%"><div class="b24-ss-channel__label">LinkedIn &amp; SEO</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/man-laptop.png"></div>
+      <div class="b24-ss-channel" style="flex:1 1 45%"><div class="b24-ss-channel__label">YouTube</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/man-tablet.png"></div>
+      <div class="b24-ss-channel" style="flex:1 1 45%"><div class="b24-ss-channel__label">Offline events</div>
+        <img class="b24-ss-channel__photo" src="bitrix24-images/people/woman-casual.png"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== POST 05 · MOST USEFUL PARTNER TOOLS ==================== -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Most useful partner tools</div>
+    <p class="b24-p">Battlecards, implementation methodology, video training and marketing training
+      have been very useful for us — they helped us onboard the team quickly and keep every project
+      consistent.</p>
+    <div class="b24-fill"></div>
+    <ul class="b24-bullets">
+      <li><span class="b24-strong">Battlecards</span> — win competitive deals</li>
+      <li><span class="b24-strong">Implementation methodology</span> — deliver projects consistently</li>
+      <li><span class="b24-strong">Video &amp; marketing training</span> — onboard the team fast</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ POST 06 · RESULTS ============================ -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Results</div>
+    <p class="b24-p">We have increased our company revenue by 10x and increased the number of
+      employees by 7x since we started selling the Bitrix24 platform in 2017.</p>
+    <div class="b24-fill"></div>
+    <div class="b24-ss-stats">
+      <div class="b24-ss-stat">
+        <svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="16" r="7"/><path d="M5 41c0-8 6-13 12-13s12 5 12 13"/><path d="M33 12a7 7 0 0 1 0 12"/><path d="M36 28c5 1 9 6 9 13"/></svg>
+        <div class="b24-ss-stat__num">30+</div><div class="b24-ss-stat__lbl">employees</div>
+      </div>
+      <div class="b24-ss-stat">
+        <svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34 L18 22 L26 30 L42 12"/><path d="M31 12h11v11"/></svg>
+        <div class="b24-ss-stat__num">10x</div><div class="b24-ss-stat__lbl">revenue growth</div>
+      </div>
+      <div class="b24-ss-stat">
+        <svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40V24"/><path d="M20 40V16"/><path d="M32 40V26"/><path d="M44 40V10"/></svg>
+        <div class="b24-ss-stat__num">7x</div><div class="b24-ss-stat__lbl">team growth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== POST 07 · IMPACT OF PARTNERSHIP ON BUSINESS =============== -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Impact of partnership on business</div>
+    <p class="b24-p">Partnership with Bitrix24 opens a lot of opportunities and connections. We managed
+      to secure larger client deals and reach enterprise companies we never imagined working with.</p>
+    <div class="b24-ss-qwrap">
+      <div class="b24-ss-pquote">Seven years ago, we never thought we would close large deals or deal with large enterprise companies</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POST 08 · ADVICE AND RECOMMENDATIONS ================= -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Advice and recommendations</div>
+    <p class="b24-p">Start learning from the Bitrix24-provided material. It is very helpful for your
+      first project — product knowledge is what lets you offer the best solution.</p>
+    <div class="b24-fill"></div>
+    <div class="b24-ss-orbit" style="max-width:640px">
+      <div class="b24-ss-orbit__ring b24-ss-orbit__ring--2"></div>
+      <div class="b24-ss-orbit__ring b24-ss-orbit__ring--1"></div>
+      <div class="b24-ss-orbit__hub" style="font-size:22px">Bitrix24<br>Partners</div>
+      <img class="b24-ss-orbit__node" style="left:50%;top:6%"  src="bitrix24-images/people/woman-glasses.png">
+      <img class="b24-ss-orbit__node" style="left:88%;top:34%" src="bitrix24-images/people/man-asian-suit.png">
+      <img class="b24-ss-orbit__node" style="left:80%;top:82%" src="bitrix24-images/people/woman-casual.png">
+      <img class="b24-ss-orbit__node" style="left:16%;top:74%" src="bitrix24-images/people/man-laptop.png">
+      <img class="b24-ss-orbit__node" style="left:9%;top:40%"  src="bitrix24-images/people/woman-headset.png">
+      <div class="b24-ss-orbit__dot" style="left:26%;top:22%;width:48px;height:48px"><img src="bitrix24-images/icons/crm-white.svg"></div>
+      <div class="b24-ss-orbit__dot" style="left:64%;top:92%;width:48px;height:48px"><img src="bitrix24-images/icons/cart-white.svg"></div>
+    </div>
+    <div class="b24-fill"></div>
+  </div>
+</section>
+
+<!-- ================== POST 09 · PARTNER SUCCESS IN NUMBERS ================== -->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Partner success in numbers</div>
+    <div class="b24-ss-facts">
+      <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Started in:</span><span class="b24-ss-facts__v">2017</span></div>
+      <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Bitrix24 Gold Partner status obtained in:</span><span class="b24-ss-facts__v">2021</span></div>
+      <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Regions / countries served:</span><span class="b24-ss-facts__v">Indonesia, Malaysia</span></div>
+    </div>
+    <div class="b24-ss-stats" style="margin-top:8px">
+      <div class="b24-ss-stat">
+        <svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="16" r="7"/><path d="M5 41c0-8 6-13 12-13s12 5 12 13"/><path d="M33 12a7 7 0 0 1 0 12"/><path d="M36 28c5 1 9 6 9 13"/></svg>
+        <div class="b24-ss-stat__num">30+</div><div class="b24-ss-stat__lbl">employees</div>
+      </div>
+      <div class="b24-ss-stat">
+        <svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34 L18 22 L26 30 L42 12"/><path d="M31 12h11v11"/></svg>
+        <div class="b24-ss-stat__num">10x</div><div class="b24-ss-stat__lbl">revenue growth</div>
+      </div>
+      <div class="b24-ss-stat">
+        <svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40V24"/><path d="M20 40V16"/><path d="M32 40V26"/><path d="M44 40V10"/></svg>
+        <div class="b24-ss-stat__num">7x</div><div class="b24-ss-stat__lbl">team growth</div>
+      </div>
+    </div>
+    <div class="b24-fill"></div>
+    <!-- OPTIONAL — awards are supplied per partner; drop this block when there are none -->
+    <div class="b24-ss-awards"><p class="b24-label">Awards:</p>
+      <img src="bitrix24-images/success-story/awards-askarasoft.png" alt="Partner awards"></div>
+  </div>
+</section>
+
+<!-- ============================== POST 10 · CTA ============================== -->
+<section class="page page--post page--sky">
+  <div class="post-body" style="justify-content:center">
+    <h1 class="b24-display b24-center" style="font-size:52px">Become a partner and start representing
+      the world's most versatile and affordable CRM</h1>
+    <div class="b24-ss-benefits" style="margin:40px 0 44px">
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/unlock.svg">Free to enter</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/funnel.svg">Up to 50% commission</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/messenger.svg">Marketing support</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/person.svg">Free leads</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/crm.svg">$1,000 kickstart bonus</span>
+    </div>
+    <div class="b24-ss-ctacard">
+      <div class="b24-ss-ctacard__text">
+        <h2 class="b24-h2">Looking to achieve the same success with your business?</h2>
+        <p>Sign up for the Bitrix24 Partner Program.</p>
+        <!-- POST CTA: no clickable button — a social post can't carry a hyperlink here -->
+        <span class="b24-ss-note">→ Use the link in the description</span>
+      </div>
+      <div class="b24-ss-ctacard__media">
+        <img src="bitrix24-images/people/duo-team.png" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
