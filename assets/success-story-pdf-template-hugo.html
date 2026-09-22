@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bitrix24 Partners — Success Story · Bit24 / Hugo Miranda (PDF)</title>
+<link rel="stylesheet" href="bitrix24-kit.css">
+<!-- SUCCESS STORY — "Bit24 / Hugo Miranda" (A4). Same common template as Reyada/Askarasoft.
+     Text from the partner's brief. Cover photo (hugo 3) + speaker avatar are PLACEHOLDERS
+     until the partner photos are supplied as files. Render:
+        python3 scripts/render.py assets/success-story-pdf-template-hugo.html --format a4 -->
+<style>
+  /* Text sizes taken from the Success Stories template (Figma px × 1.334 for A4). */
+  .page--sky { background: #F5FAFF; }
+  .b24-ss-loghead { margin-bottom: 24px; }
+  .b24-ss-loghead .b24-plogo { height: 18px; }
+  .b24-ss-banner { font-size: 37px; color: #EFFBFF; padding: 22px 34px; border-radius: 27px; margin-bottom: 40px; }
+  .b24-ss-cols { gap: 40px; align-items: start; position: relative; z-index: 1; }
+  .b24-ss-col { min-width: 0; }
+  .b24-qa__q { font-size: 20px; line-height: 1.2; margin-bottom: 18px; }
+  .b24-qa__a { font-size: 17.3px; line-height: 1.4; text-align: justify; margin-bottom: 13px; }
+  .b24-qa__a ul { margin: 6px 0 0; padding-left: 20px; }
+  .b24-qa__a li { margin-bottom: 6px; }
+  .b24-ss-pquote { font-weight: 300; font-style: italic; font-size: 24px; color: var(--b24p-deep); text-align: center; line-height: 1.4; }
+  .b24-ss-cover .b24-ss-eyebrow { font-size: 22px; font-weight: 600; padding: 12px 21px; }
+
+  .b24-ss-cover__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .b24-ss-cover .b24-display { font-size: 53px; line-height: 1.08; font-weight: 600; text-align: left; letter-spacing: -.01em; }
+  .b24-ss-cover .b24-ss-title { max-width: 86%; margin-top: auto; margin-bottom: 12mm; }
+  .b24-ss-cover .b24-ss-photo--right { width: 82%; }   /* larger cover person */
+
+  .b24-ss-speaker { background: linear-gradient(135deg,#EFFBFF 0%,#CFEDFF 100%) !important; border-radius: 27px; padding: 21px 24px; box-shadow: none; }
+  .b24-ss-speaker__head { gap: 10px; align-items: center; }
+  .b24-ss-speaker__avatar { width: 67px; height: 67px; padding: 0; background: none; }
+  /* placeholder avatar until Hugo's headshot is supplied */
+  .b24-ss-speaker__avatar--ph { background: linear-gradient(135deg,#9fc3e6,#c9def2) !important;
+    display: flex; align-items: center; justify-content: center; }
+  .b24-ss-speaker__avatar--ph span { font-family: var(--b24-font-display); font-weight: 700;
+    color: #fff; font-size: 26px; }
+  .b24-ss-speaker__name { font-size: 17.3px; line-height: 1; color: var(--b24p-deep); }
+  .b24-ss-speaker li { font-size: 17.3px; color: var(--b24p-deep); padding-left: 22px; }
+  .b24-ss-speaker li::before { background: var(--b24p-deep); }
+
+  .b24-ss-chips { gap: 11px; }
+  .b24-ss-chip { font-size: 17.3px; font-weight: 400; padding: 8px 19px 8px 8px; gap: 8px; background: linear-gradient(120deg,#ECF9FF 0%,#CFEDFF 100%) !important; }
+  .b24-ss-chip__ic { width: 24px; height: 24px; }
+  .b24-ss-chip__ic img { width: 68%; height: 68%; }
+
+  .b24-ss-factpill { font-size: 17.3px; padding: 8px 21px; gap: 12px; }
+  .b24-ss-factpill img { width: 21px; height: 21px; }
+  .b24-ss-checkpill { font-size: 20px; padding: 11px 24px 11px 13px; gap: 11px; }
+  .b24-ss-checkpill img { width: 27px; height: 27px; }
+
+  .b24-ss-stat, .b24-ss-ctacard { box-shadow: none; }
+  .b24-ss-stat { border: 1px solid var(--b24-line); }
+  .b24-ss-stat__num { font-size: 16px; font-weight: 600; }
+  .b24-ss-stat__lbl { font-size: 17.3px; }
+  .b24-ss-stat__ic { width: 61px; height: 61px; }
+  .b24-ss-facts__row { display: grid; grid-template-columns: 1fr 1fr; align-items: baseline; border-bottom: none; padding: 7px 0; }
+  .b24-ss-facts__k { font-size: 17.3px; font-weight: 400; }
+  .b24-ss-facts__v { text-align: left; font-size: 18.7px; font-weight: 600; }
+
+  .b24-ss-orbit-img { position: absolute; display: block; }
+
+  .b24-ss-ctacard { overflow: visible; position: relative; padding-bottom: 0; }
+  .b24-ss-ctacard__text { flex: 0 0 47%; max-width: 47%; padding-bottom: var(--b24-s8); }
+  .b24-ss-ctacard__text .b24-h2 { font-size: 27px; font-weight: 600; line-height: 1.16; text-wrap: balance; }
+  .b24-ss-ctacard__text p { font-size: 19px; line-height: 1.4; text-wrap: pretty; }
+  .b24-ss-ctacard__media img { position: absolute; right: 4px; bottom: 0; height: 315px; max-height: none; width: auto; z-index: 2; }
+  .b24-ss-ctacard .b24-btn { text-decoration: underline; text-underline-offset: 3px; font-size: 17px; padding: 11px 28px; box-shadow: none; }
+</style>
+</head>
+<body>
+
+<!-- ============================ 1 · COVER ============================ -->
+<section class="page page--flush b24-ss-cover">
+  <img class="b24-ss-photo b24-ss-photo--right" src="bitrix24-images/success-story/hugo-cutout.png" alt="Hugo Miranda, CEO of Bit24">
+  <div class="b24-ss-cover__body">
+    <span class="b24-logo b24-logo--light" style="font-size:17px">
+      <img src="bitrix24-logo/logo-white.svg"><span class="b24-logo__sub">Partners</span>
+    </span>
+    <div class="b24-ss-title">
+      <span class="b24-ss-eyebrow" style="margin-bottom:22px">Success Stories</span>
+      <h1 class="b24-display">Bit24: Transforming Businesses with Smart CRM Solutions</h1>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= 2 · STORY INTRO ========================= -->
+<section class="page page--partner-navy" style="justify-content:center;text-align:center">
+  <div style="margin:auto 0;max-width:660px;margin-left:auto;margin-right:auto">
+    <span class="b24-logo b24-logo--light" style="font-size:15px;justify-content:center;margin-bottom:52px">
+      <img src="bitrix24-logo/logo-white.svg"><span class="b24-logo__sub">Partners</span>
+    </span>
+    <h1 style="font-family:var(--b24-font-display);font-weight:600;font-size:44px;line-height:1.12;color:#fff;margin:0">
+      Helping companies work smarter<br><span style="color:#BDF300">since 2020</span></h1>
+    <p style="font-size:17.3px;line-height:1.5;color:#fff;max-width:620px;margin:24px auto 0">
+      This is the story of Bit24, a Bitrix24 partner since 2020, led by Hugo Miranda. What began as a
+      personal fascination with Bitrix24 evolved into a mission to help professional firms and
+      service-based businesses transform the way they work.</p>
+    <p style="font-size:17.3px;line-height:1.5;color:#fff;max-width:620px;margin:16px auto 0">
+      Today, Bit24 is recognized as one of the Bitrix24 partners with the highest client retention
+      rates worldwide.</p>
+    <p style="font-size:17.3px;line-height:1.5;color:#fff;max-width:620px;margin:16px auto 0">
+      Their journey shows how passion, specialization, and a human-centered approach can turn
+      technology into long-term business success.</p>
+  </div>
+</section>
+
+<!-- ==================== 3 · BEGINNING OF PARTNERSHIP ==================== -->
+<section class="page page--sky">
+  <div class="b24-ss-loghead"><img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Beginning of partnership</div>
+  <div class="b24-ss-cols">
+    <div class="b24-ss-col">
+      <div class="b24-ss-speaker" style="margin-bottom:24px">
+        <div class="b24-ss-speaker__head">
+          <div class="b24-ss-speaker__avatar"><img src="bitrix24-images/success-story/hugo-avatar.png" alt=""></div>
+          <div class="b24-ss-speaker__name">Hugo Miranda</div>
+        </div>
+        <ul>
+          <li>CEO of Bit24,</li>
+          <li>Bitrix24 partner since 2020</li>
+        </ul>
+      </div>
+      <div class="b24-qa">
+        <p class="b24-qa__q">What were your expectations at the beginning of the partnership?</p>
+        <p class="b24-qa__a">Our goal was to become a reference point for Bitrix24 implementation in
+          Spain and Latin America, focusing on high-quality consulting.</p>
+        <p class="b24-qa__a">We didn't want to offer "more of the same," but rather deliver
+          well-structured projects with clear processes and close relationships with our clients.</p>
+      </div>
+    </div>
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">How long have you been<br>a Bitrix24 partner?</p>
+        <p class="b24-qa__a">We've been partners with Bitrix24 since 2020.</p>
+      </div>
+      <div class="b24-qa">
+        <p class="b24-qa__q">What motivated you to become a Bitrix24 partner?</p>
+        <p class="b24-qa__a">I was a Bitrix24 user myself and was fascinated by its potential, especially
+          for professional firms and service companies. I quickly realized that many organizations
+          could transform the way they work with this tool – and that inspired me to professionalize
+          that vision by becoming a partner.</p>
+      </div>
+      <div class="b24-ss-pquote" style="margin-top:18px">I was a Bitrix24 user myself and was fascinated by its potential.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4 · WORK PROCESS ===================== -->
+<section class="page page--sky">
+  <div class="b24-ss-loghead"><img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Work process</div>
+  <div class="b24-ss-cols">
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">How did you start selling Bitrix24 to your clients?</p>
+        <p class="b24-qa__a">We began by hosting educational webinars and offering personalized
+          consultations. To make adoption easier, we designed small phased implementation packages,
+          allowing companies to test Bitrix24 without taking big risks upfront.</p>
+      </div>
+      <div class="b24-qa" style="margin-top:30px">
+        <p class="b24-qa__q">How do you attract new clients today?</p>
+        <p class="b24-qa__a">Our current strategy is built on valuable content – webinars, videos, and a
+          private client community – combined with sector-based specialization. We work mainly with
+          consulting firms, professional offices, and installation companies, developing tailored
+          processes for each type of client. This makes Bit24 stand out as a reliable and distinctive
+          partner.</p>
+      </div>
+    </div>
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">Which Bitrix24 tools and resources have been the most useful?</p>
+        <p class="b24-qa__a">We greatly value the direct support from the Partner Team, official
+          training, and the materials available through the Partner Network. We also appreciate the
+          freedom to innovate, which let us create our own Market solutions – SPA Importer and Bit24
+          Buttons.</p>
+      </div>
+      <img class="b24-ss-orbit-img" src="bitrix24-images/success-story/reyada-orbit.png" style="display:block;width:300px;max-width:100%;margin:30px auto 0" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 5 · RESULTS ============================ -->
+<section class="page page--sky">
+  <div class="b24-ss-loghead"><img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Results</div>
+  <div class="b24-ss-cols">
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">What results have you achieved during your partnership with Bitrix24?</p>
+        <p class="b24-qa__a">Bit24 has grown from a small personal project into one of the global leaders
+          in client retention. We've implemented over 200 projects using our own methodology and built a
+          vibrant community of engaged clients. We're also among the few partners offering continuous
+          training, mentorships, and an exclusive client community.</p>
+      </div>
+      <div class="b24-qa">
+        <p class="b24-qa__q">Can you share some success numbers?</p>
+        <div class="b24-ss-factpills" style="margin-top:4px">
+          <span class="b24-ss-factpill"><img src="bitrix24-images/icons-solid/rocket-navy.svg">200+ projects implemented</span>
+          <span class="b24-ss-factpill"><img src="bitrix24-images/icons-solid/group-navy.svg">100+ active community members</span>
+          <span class="b24-ss-factpill"><img src="bitrix24-images/icons-solid/circle-check-navy.svg">85%+ client loyalty rate</span>
+        </div>
+      </div>
+    </div>
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">What impact has Bitrix24 had on your business?</p>
+        <p class="b24-qa__a">Bitrix24 is the core of our business model. This partnership has enabled us
+          to scale our team, launch new business lines, and build a strong, respected brand within the
+          CRM ecosystem.</p>
+      </div>
+      <p class="b24-label" style="margin-top:var(--b24-s5)">Our Bitrix24 Market apps</p>
+      <div class="b24-ss-chips" style="margin-top:10px">
+        <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/ai-robot-white.svg"></span>SPA Importer</span>
+        <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/rocket-white.svg"></span>Bit24 Buttons</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 6 · ADVANTAGES OF PARTNERSHIP ==================== -->
+<section class="page page--sky">
+  <div class="b24-ss-loghead"><img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Advantages of Partnership</div>
+  <div class="b24-ss-cols">
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">What are the main advantages of being a Bitrix24 partner?</p>
+        <p class="b24-qa__a">The constant growth of the platform, freedom to innovate, and support from
+          the Bitrix24 Partner Team make this partnership a true business opportunity. The platform's
+          flexibility encourages creativity and specialization, and lets us develop customized solutions
+          for different industries. Publishing our own solutions on the Bitrix24 Market is a huge
+          advantage too.</p>
+      </div>
+    </div>
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">How satisfied are you with the partnership?</p>
+        <p class="b24-qa__a">Our satisfaction level is very high. We feel heard, valued, and supported by
+          Bitrix24. There's still a lot to build together, but we're completely aligned with Bitrix24's
+          vision and committed to growing side by side.</p>
+      </div>
+    </div>
+  </div>
+  <div class="b24-ss-checkband" style="position:absolute;left:18mm;right:18mm;bottom:26mm">
+    <img class="b24-ss-checkband__photo" src="bitrix24-images/success-story/reyada-handshake.png" alt="">
+    <span class="b24-ss-checkpill" style="left:-3%;top:12%"><img src="bitrix24-images/icons-solid/circle-check.svg">Consulting firms</span>
+    <span class="b24-ss-checkpill" style="right:0;top:42%"><img src="bitrix24-images/icons-solid/circle-check.svg">Professional offices</span>
+    <span class="b24-ss-checkpill" style="left:38%;bottom:-8%"><img src="bitrix24-images/icons-solid/circle-check.svg">Installation companies</span>
+  </div>
+</section>
+
+<!-- ================== 7 · ADVICE AND RECOMMENDATIONS ================== -->
+<section class="page page--sky">
+  <div class="b24-ss-loghead"><img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Advice and Recommendations</div>
+  <div class="b24-ss-cols">
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">What advice would you give to new Bitrix24 partners?</p>
+        <ul class="b24-ss-checklist" style="margin-top:8px">
+          <li class="b24-ss-checkli"><img src="bitrix24-images/icons-solid/circle-check.svg">Don't try to be "the partner for everyone."</li>
+          <li class="b24-ss-checkli"><img src="bitrix24-images/icons-solid/circle-check.svg">Specialize in a specific client type or industry.</li>
+          <li class="b24-ss-checkli"><img src="bitrix24-images/icons-solid/circle-check.svg">Focus on quality over quantity.</li>
+          <li class="b24-ss-checkli"><img src="bitrix24-images/icons-solid/circle-check.svg">Use all the resources and training available through the Partner Network.</li>
+          <li class="b24-ss-checkli"><img src="bitrix24-images/icons-solid/circle-check.svg">Learn from your mistakes – every project is an opportunity to improve.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="b24-ss-col">
+      <div class="b24-qa">
+        <p class="b24-qa__q">What mistakes did you make at the beginning, and how can they be avoided?</p>
+        <div class="b24-ss-steps b24-ss-steps--1col" style="margin-top:12px">
+          <div class="b24-ss-step"><span class="b24-ss-step__n">1</span>
+            <p class="b24-ss-step__txt"><strong>Targeting too many client profiles.</strong> That led to
+              unfocused proposals and unsuitable projects. We learned it's better to say "no" early than
+              to take on the wrong client.</p></div>
+          <div class="b24-ss-step"><span class="b24-ss-step__n">2</span>
+            <p class="b24-ss-step__txt"><strong>Automating before understanding the client's process.</strong>
+              We once trusted automation without validating workflows with the client first. Now, we always
+              start with a diagnostic phase before implementing automation.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= 8 · CASE SUMMARY ========================= -->
+<section class="page page--sky">
+  <div class="b24-ss-loghead"><img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png"></div>
+  <div class="b24-ss-banner">Case summary</div>
+  <div class="b24-ss-facts">
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Partner since:</span><span class="b24-ss-facts__v">2020</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Projects implemented:</span><span class="b24-ss-facts__v">200+</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Client retention rate:</span><span class="b24-ss-facts__v">85%+</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Active community members:</span><span class="b24-ss-facts__v">100+</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Bitrix24 Market apps:</span><span class="b24-ss-facts__v">SPA Importer, Bit24 Buttons</span></div>
+    <div class="b24-ss-facts__row"><span class="b24-ss-facts__k">Main regions:</span><span class="b24-ss-facts__v">Spain, Latin America</span></div>
+  </div>
+  <div class="b24-ss-stats" style="margin-top:26px">
+    <div class="b24-ss-stat">
+      <img class="b24-ss-stat__ic" src="bitrix24-images/icons-solid/rocket-navy.svg" alt="">
+      <div><div class="b24-ss-stat__num">200+</div><div class="b24-ss-stat__lbl">projects implemented</div></div>
+    </div>
+    <div class="b24-ss-stat">
+      <img class="b24-ss-stat__ic" src="bitrix24-images/icons-solid/circle-check-navy.svg" alt="">
+      <div><div class="b24-ss-stat__num">85%+</div><div class="b24-ss-stat__lbl">client retention</div></div>
+    </div>
+    <div class="b24-ss-stat">
+      <img class="b24-ss-stat__ic" src="bitrix24-images/icons-solid/group-navy.svg" alt="">
+      <div><div class="b24-ss-stat__num">100+</div><div class="b24-ss-stat__lbl">community members</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= 9 · CTA ============================= -->
+<section class="page page--sky" style="justify-content:flex-start">
+  <img class="b24-plogo" src="bitrix24-logo/logo-partner-h.png" style="height:20px;align-self:center;margin-top:6px" alt="Bitrix24 Partners">
+  <div style="margin:auto 0;width:100%">
+    <h1 class="b24-display b24-center" style="font-weight:600;font-size:38px;line-height:1.2;max-width:82%;margin:0 auto;background:var(--b24-grad-partner-navy);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">Become a partner and start
+      representing the world's most versatile and affordable CRM.</h1>
+    <div class="b24-ss-benefits" style="margin:30px 0 40px">
+      <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/key-white.svg"></span>Free to join</span>
+      <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/money-white.svg"></span>Up to 50% commission</span>
+      <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/message-white.svg"></span>Marketing &amp; technical support</span>
+      <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/lead-white.svg"></span>Free leads</span>
+      <span class="b24-ss-chip"><span class="b24-ss-chip__ic"><img src="bitrix24-images/icons-solid/rocket-white.svg"></span>$1,000 kickstart bonus</span>
+    </div>
+    <div class="b24-ss-ctacard">
+      <div class="b24-ss-ctacard__text">
+        <h2 class="b24-h2">Looking to grow your business and help others transform theirs?</h2>
+        <p>Join the Bitrix24 Partner Program today and start building your own success story.</p>
+        <a class="b24-btn b24-btn--lg" href="https://partners.bitrix24.com/">Sign up</a>
+      </div>
+      <div class="b24-ss-ctacard__media">
+        <img src="bitrix24-images/people/man-laptop.png" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

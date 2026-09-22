@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Success Story — posts skeleton</title>
+<link rel="stylesheet" href="bitrix24-kit.css">
+<!-- BLANK LinkedIn/JPEG POST SKELETON. One <section class="page page--post"> = one
+     post (1080×1350). Fill the {{PLACEHOLDERS}}, duplicate the content post per
+     theme, one idea per slide. Render each to its own JPEG:
+        python3 scripts/render.py assets/success-story-posts-skeleton.html --format post
+     Prep the cover photo first (see prep_cover_photo.py). Filled example:
+     success-story-posts-template.html.
+     DIFFERENCES FROM THE PDF: plain "Bitrix24" wordmark on the cover (not the
+     Partners lockup), the speaker facts sit on the COVER, and the CTA ends with
+     "use the link in the description" — a post has NO clickable button. -->
+<style>
+  .b24-ss-stat,.b24-ss-channel,.b24-ss-ctacard{box-shadow:none}
+  .b24-ss-stat,.b24-ss-channel{border:1px solid var(--b24-line)}
+  .post-body{display:flex;flex-direction:column;height:100%}
+  .page--sky { background: #F5FAFF; }   /* light posts: flat #F5FAFF backdrop */
+</style>
+</head>
+<body>
+
+<!-- POST 01 · COVER --------------------------------------------------------->
+<section class="page page--post page--flush b24-ss-cover">
+  <img class="b24-ss-photo b24-ss-photo--right" src="bitrix24-images/success-story/speaker-{{slug}}.png" alt="{{Speaker name}}">
+  <div class="b24-ss-cover__body">
+    <img src="bitrix24-logo/logo-white.svg" style="height:44px;align-self:flex-start" alt="Bitrix24">
+    <div class="b24-ss-title b24-ss-title--center">
+      <span class="b24-ss-eyebrow">Success Stories</span>
+      <h1 class="b24-display" style="margin-top:24px">{{Cover headline — the result}}</h1>
+    </div>
+    <div class="b24-ss-personcard">
+      <div class="b24-ss-personcard__head">
+        <img src="bitrix24-images/success-story/speaker-{{slug}}-avatar.png" alt="">
+        <div>
+          <div class="b24-ss-personcard__name">{{Name Surname}}</div>
+          <div class="b24-ss-personcard__role">{{Position}}</div><!-- optional: drop this line to move the role into the list below -->
+        </div>
+      </div>
+      <ul class="b24-ss-personcard__list">
+        <!-- if there is no role line above, make the role the first bullet: <li>{{Position}}</li> -->
+        <li>Bitrix24 partner since {{YYYY}}</li>
+        <li>{{Country}}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- POST 02+ · CONTENT (duplicate per theme, one idea each) ------------------>
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">{{Section title}}</div>
+    <p class="b24-p">{{One focused paragraph.}}</p>
+    <div class="b24-ss-qwrap">
+      <div class="b24-ss-pquote">{{Optional pull-quote.}}</div>
+    </div>
+    <!-- optional product chips OR channel cards; delete if not needed -->
+    <div class="b24-ss-chips">
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/crm.svg">CRM</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/calendar.svg">Tasks &amp; Projects</span>
+    </div>
+  </div>
+</section>
+
+<!-- POST · RESULTS (numbers) ------------------------------------------------->
+<section class="page page--post page--sky">
+  <div class="post-body">
+    <div class="b24-ss-banner">Results</div>
+    <p class="b24-p">{{The results paragraph.}}</p>
+    <div class="b24-fill"></div>
+    <div class="b24-ss-stats">
+      <div class="b24-ss-stat"><svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="16" r="7"/><path d="M5 41c0-8 6-13 12-13s12 5 12 13"/><path d="M33 12a7 7 0 0 1 0 12"/><path d="M36 28c5 1 9 6 9 13"/></svg><div class="b24-ss-stat__num">{{30+}}</div><div class="b24-ss-stat__lbl">{{employees}}</div></div>
+      <div class="b24-ss-stat"><svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34 L18 22 L26 30 L42 12"/><path d="M31 12h11v11"/></svg><div class="b24-ss-stat__num">{{10x}}</div><div class="b24-ss-stat__lbl">{{revenue growth}}</div></div>
+      <div class="b24-ss-stat"><svg class="b24-ss-stat__ic" viewBox="0 0 48 48" fill="none" stroke="#063883" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40V24"/><path d="M20 40V16"/><path d="M32 40V26"/><path d="M44 40V10"/></svg><div class="b24-ss-stat__num">{{7x}}</div><div class="b24-ss-stat__lbl">{{team growth}}</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- POST · CTA (no button — link goes in the description) -------------------->
+<section class="page page--post page--sky">
+  <div class="post-body" style="justify-content:center">
+    <h1 class="b24-display b24-center" style="font-size:52px">Become a partner and start representing the world's most versatile and affordable CRM</h1>
+    <div class="b24-ss-benefits" style="margin:40px 0 44px">
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/unlock.svg">Free to enter</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/funnel.svg">Up to 50% commission</span>
+      <span class="b24-ss-chip"><img class="b24-ic" src="bitrix24-images/icons/person.svg">Free leads</span>
+    </div>
+    <div class="b24-ss-ctacard">
+      <div class="b24-ss-ctacard__text">
+        <h2 class="b24-h2">Looking to achieve the same success with your business?</h2>
+        <p>Sign up for the Bitrix24 Partner Program.</p>
+        <span class="b24-ss-note">→ Use the link in the description</span>
+      </div>
+      <div class="b24-ss-ctacard__media"><img src="bitrix24-images/people/duo-team.png" alt=""></div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

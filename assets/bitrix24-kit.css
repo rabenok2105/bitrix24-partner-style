@@ -775,3 +775,497 @@ a, .b24-link   { color: var(--b24-blue-500); text-decoration: underline;
    lifts. On light content pages emphasise with a plain <strong> in navy instead. */
 .page--guide .b24-em--white { font-weight: 700; color: #FFFFFF; }
 .page--guide .b24-em--green { font-weight: 700; color: #BDF300; }
+
+/* ============================================================================
+   15. SUCCESS STORY  —  a partner testimonial in two synchronized outputs
+   ----------------------------------------------------------------------------
+   ONE story, TWO deliverables from the SAME narrative:
+     • PDF   — A4 portrait (.page), multi-page, one downloadable/printable file.
+               Denser: several Q&A per page, a runhead on every sheet, a real
+               clickable "Sign up" link on the CTA.
+     • POSTS — .page--post (1080×1350, 4:5), ONE idea per slide, exported as a
+               SERIES of JPEGs for LinkedIn. Bigger type; the speaker facts sit
+               on the cover; the CTA says "use the link in the description"
+               (a social post has no clickable button).
+   Both share this component set; only density, canvas and the CTA affordance
+   differ. See DESIGN_SYSTEM.md §5c and success-story-*-template.html.
+   ========================================================================== */
+
+/* ---- 15.0  POST canvas (1080×1350, 4:5) ----------------------------------
+   The LinkedIn/JPEG post preset. Like the other social canvases many things are
+   shared with A4; only the size + a punchier type scale change. One .page--post
+   per slide → the render script rasterizes each to its own JPEG. */
+.page--post { width: 1080px; height: 1350px; min-height: 1350px; padding: 80px; }
+
+/* Punchier type scale for the post canvas (mirrors .page--li / .page--story). */
+.page--post { font-size: 21px; line-height: 1.5; }
+.page--post .b24-display { font-size: 66px; line-height: 1.03; }
+.page--post .b24-h1      { font-size: 44px; margin-bottom: 26px; }
+.page--post .b24-h2      { font-size: 32px; }
+.page--post .b24-h3      { font-size: 24px; }
+.page--post .b24-lead    { font-size: 26px; line-height: 1.45; }
+.page--post .b24-p       { font-size: 25px; line-height: 1.5; }
+.page--post .b24-label   { font-size: 17px; }
+.page--post .b24-small   { font-size: 16px; }
+.page--post .b24-pill    { font-size: 22px; padding: 10px 26px; }
+.page--post .b24-btn     { font-size: 26px; padding: 18px 44px; }
+.page--post .b24-tile    { width: 88px; height: 88px; font-size: 42px; border-radius: 20px; }
+.page--post .b24-plogo--cover { height: 40px; }
+
+/* ---- 15.1  COVER  --------------------------------------------------------
+   A full-bleed partner-navy sheet: the signature azure→navy gradient, a duotone
+   speaker photo bleeding off one side, the "Bitrix24 Partners" lockup, a
+   "Success Stories" eyebrow pill and the big white headline. Use it flush:
+     <section class="page page--flush b24-ss-cover"> …            (PDF cover)
+     <section class="page page--post page--flush b24-ss-cover"> … (post cover)
+   Keep the gradient — do NOT flat-fill navy. */
+/* The cover's own navy radial (deep-blue glow → deep navy), matching the Figma
+   Success Story covers. The photo blends onto THIS gradient via mix-blend. */
+.b24-ss-cover { background: var(--b24-grad-partner-navy); color: #fff; overflow: hidden; }
+.b24-ss-cover .b24-display,
+.b24-ss-cover .b24-h1, .b24-ss-cover p, .b24-ss-cover strong { color: #fff; }
+
+/* Inner padded content layer above the photo (headline, eyebrow, logo).
+   100px inset top/right/bottom, HALF (50px) on the left (both A4 and post). */
+.b24-ss-cover__body { position: relative; z-index: 2; display: flex; flex-direction: column;
+  height: 100%; box-sizing: border-box; padding: 100px 100px 100px 50px; }   /* PDF cover: 50px left */
+.page--post .b24-ss-cover__body { padding: 100px 100px 100px 12px; }          /* post cover: 12px left */
+
+/* The speaker photo — a NORMAL (full-colour) photo, tinted into the brand navy
+   by a blend, exactly like Figma: place `<img class="b24-ss-photo">` and it sits
+   over the cover's navy gradient with `mix-blend-mode: overlay`, so the blue tone
+   comes from the BLEND, not from pre-processing the image. A background-removed
+   cutout blends cleanest (prep_cover_photo.py), but a photo WITH its background
+   also works — the overlay tints it and the inner-edge fade melts it into the
+   navy. It's absolute, covers a vertical band on one side, sits BEHIND the text
+   (z-index 0). Default: right side, full height. */
+.b24-ss-photo {
+  position: absolute; bottom: 0; right: 0; height: 100%; width: 66%;
+  object-fit: contain; object-position: right bottom; z-index: 0; pointer-events: none;
+  mix-blend-mode: overlay;   /* plain overlay; NEVER cropped (object-fit: contain) */
+}
+/* Placement variants — pick the one that frames the supplied photo best.
+   (Study the raw photo; harmonious framing matters more than copying one layout.) */
+.b24-ss-photo--right  { right: 0; left: auto; width: 66%; }
+.b24-ss-photo--top    { right: 0; left: auto; top: 0; height: 62%; width: 60%;   /* upper-right, title below */
+  -webkit-mask-image: linear-gradient(120deg, transparent 0%, #000 40%, #000 82%, transparent 100%);
+          mask-image: linear-gradient(120deg, transparent 0%, #000 40%, #000 82%, transparent 100%); }
+.b24-ss-photo--bottom { right: 0; left: auto; bottom: 0; top: auto; height: 74%; width: 66%;  /* people at the bottom, title on top */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 100%); }
+.b24-ss-photo--wide   { right: 0; left: auto; width: 82%; }   /* two people / duo — wider band */
+
+/* Eyebrow "Success Stories" pill — light-blue fill, partner-navy text (Figma). */
+.b24-ss-eyebrow {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  background: linear-gradient(120deg, #ECF9FF 0%, #BEE9FF 100%); color: var(--b24p-deep);
+  font-family: var(--b24-font-display); font-weight: 700; font-size: 15px;
+  padding: 8px 20px; border-radius: var(--b24-r-pill); white-space: nowrap;
+}
+.page--post .b24-ss-eyebrow { font-size: 22px; padding: 10px 28px; }
+
+/* Cover title block — pin to the bottom-left by default (.b24-ss-title--bottom),
+   or keep it near the top (.b24-ss-title--top) when the photo sits low. */
+/* Title width is capped to the LEFT band so the headline never runs over the
+   person's face on the right, however the copy wraps. Keep headlines to this
+   column; if a very long headline still reaches the face, shorten the copy or
+   nudge this width down — don't let text sit on the face. */
+.b24-ss-title { max-width: 66%; }
+.b24-ss-title--bottom { margin-top: auto; }
+.b24-ss-title--top    { margin-bottom: auto; }
+.b24-ss-title--center { margin-top: auto; margin-bottom: auto; }   /* vertically centred */
+.b24-ss-title .b24-ss-eyebrow { margin-bottom: 20px; }
+/* Cover headline — SemiBold (600), matching Figma. */
+.b24-ss-cover .b24-display { letter-spacing: -.02em; font-weight: 600; font-size: 72px; line-height: 1.05; }
+.page--post .b24-ss-cover .b24-display { font-size: 116px; }
+
+/* Speaker card on the POST cover — a fixed-width light rounded plate overlaid
+   low-left. Structure: a HEAD row (avatar + name on line 1, role on line 2),
+   then a vertical BULLET LIST of facts (partner-since year, country — and the
+   role too when it wasn't given its own line). On the PDF the speaker gets a
+   dedicated intro page instead, so this is mainly for posts. */
+.b24-ss-personcard {
+  display: flex; flex-direction: column; gap: 14px; align-self: flex-start;
+  background: linear-gradient(120deg, #ECF9FF 0%, #BEE9FF 100%); border-radius: 22px;
+  padding: 24px 28px; color: var(--b24p-deep);
+  width: 520px; max-width: 100%; box-sizing: border-box;   /* fixed width */
+}
+.b24-ss-personcard__head { display: flex; align-items: center; gap: 20px; }
+.b24-ss-personcard__head img { width: 78px; height: 78px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+.b24-ss-personcard__name { font-family: var(--b24-font-display); font-weight: 600;
+  font-size: 22px; color: var(--b24p-deep); line-height: 1.2; }
+.b24-ss-personcard__role { font-size: 18px; color: var(--b24p-deep); margin-top: 3px; line-height: 1.25; }
+.b24-ss-personcard__list { list-style: none; margin: 0; padding: 0; }
+.b24-ss-personcard__list li { position: relative; padding-left: 20px; font-size: 17px;
+  line-height: 1.4; margin-bottom: 7px; color: #3f6ea8; }
+.b24-ss-personcard__list li:last-child { margin-bottom: 0; }
+.b24-ss-personcard__list li::before { content: ""; position: absolute; left: 0; top: .5em;
+  width: 7px; height: 7px; border-radius: 2px; background: var(--b24p-deep); }
+/* legacy single meta line (kept for back-compat) */
+.b24-ss-personcard__meta { font-size: 18px; color: #3f6ea8; margin-top: 4px; line-height: 1.3; }
+
+/* ---- 15.1b  CONTENT-PAGE FRAME (PDF): top-left logo + two equal columns ----
+   Content pages carry NO runhead caption/line and NO footer — just the partner
+   lockup pinned top-LEFT, the banner heading, then a two-column magazine grid.
+   Content flows column 1 then column 2; the pull-quote lives inside a column. */
+.b24-ss-loghead { display: flex; justify-content: flex-start; align-items: center;
+  margin-bottom: var(--b24-s10); flex: 0 0 auto; }
+.b24-ss-loghead .b24-plogo { height: 19px; }
+.b24-ss-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--b24-s8);
+  align-items: start; }
+.b24-ss-cols .b24-ss-pquote { text-align: center; padding: 10px 34px; margin: var(--b24-s5) 0; }
+.b24-ss-cols .b24-ss-pquote::before { left: 2px; top: 30px; font-size: 64px; }
+.b24-ss-cols .b24-ss-pquote::after  { right: 4px; bottom: -4px; font-size: 64px; }
+
+/* ---- 15.2  BANNER HEADING  ----------------------------------------------
+   The rounded navy-gradient title bar that opens most content pages/posts:
+     <div class="b24-ss-banner">Beginning of cooperation</div>
+   Full width, centered white display type, the signature gradient. */
+.b24-ss-banner {
+  background: var(--b24-grad-partner-navy); color: #fff;
+  font-family: var(--b24-font-display); font-weight: 600; font-size: 26px;
+  text-align: center; padding: 20px 28px; border-radius: 20px;
+  margin: 0 0 var(--b24-s6); line-height: 1.15;
+}
+.page--post .b24-ss-banner { font-size: 40px; padding: 30px 36px; border-radius: 26px; margin-bottom: 70px; }  /* banner→content gap 70px */
+
+/* ---- 15.3  Q&A PAIRS  ----------------------------------------------------
+   Interview questions + answers. Question = bold navy; answer = body copy.
+   Stack several per PDF page; usually one theme per post. */
+.b24-qa { margin: 0 0 var(--b24-s5); }
+.b24-qa__q { font-family: var(--b24-font-display); font-weight: 600; font-size: 15px;
+  line-height: 1.2; color: var(--b24p-deep); margin: 0 0 20px; }
+.b24-qa__a { font-size: 13px; line-height: 1.4; color: var(--b24p-deep); margin: 0 0 10px; }
+.b24-qa__a:last-child { margin-bottom: 0; }
+.b24-qa + .b24-qa { margin-top: 30px; }
+.page--sky .b24-qa__q { color: var(--b24p-deep); }
+.page--post .b24-qa__q { font-size: 30px; margin-bottom: 12px; }
+.page--post .b24-qa__a { font-size: 24px; }
+
+/* ---- 15.4  SPEAKER FACTS CARD  ------------------------------------------
+   Light rounded card: round avatar + name/role, optional fact bullets. Used in
+   the PDF Q&A column and the intro page. */
+.b24-ss-speaker {
+  background: var(--b24-card); border-radius: var(--b24-r-inner);
+  padding: var(--b24-s5); display: flex; flex-direction: column; gap: var(--b24-s3);
+}
+.b24-ss-speaker__head { display: flex; align-items: center; gap: var(--b24-s3); }
+.b24-ss-speaker__avatar { width: 56px; height: 56px; border-radius: 50%; flex: 0 0 auto; padding: 4px;
+  background: var(--b24-grad-partner-navy); box-sizing: border-box; }
+.b24-ss-speaker__avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.b24-ss-speaker__head img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+.b24-ss-speaker__name { font-family: var(--b24-font-display); font-weight: 600;
+  font-size: 15px; color: var(--b24p-deep); line-height: 1.2; }
+.b24-ss-speaker__meta { font-size: 12px; color: var(--b24-text-mute); margin-top: 2px; }
+.b24-ss-speaker ul { list-style: none; margin: 0; padding: 0; }
+.b24-ss-speaker li { position: relative; padding-left: 16px; font-size: 12.5px;
+  line-height: 1.4; margin-bottom: 6px; color: var(--b24-text); }
+.b24-ss-speaker li::before { content: ""; position: absolute; left: 0; top: .5em;
+  width: 6px; height: 6px; border-radius: 2px; background: var(--b24-navy-900); }
+.page--sky .b24-ss-speaker { background: rgba(255,255,255,.7); }
+
+/* ---- 15.5  PULL-QUOTE  ---------------------------------------------------
+   A big italic testimonial sentence framed by two oversized quote marks. The
+   emotional beat of a page/post (the headline result restated in the partner's
+   voice). */
+.b24-ss-pquote {
+  position: relative; margin: var(--b24-s6) 0; padding: 6px 44px;
+  font-style: italic; font-size: 22px; line-height: 1.4; color: var(--b24-deep);
+  text-align: center;
+}
+.b24-ss-pquote::before, .b24-ss-pquote::after {
+  font-family: var(--b24-font-display); font-weight: 900; font-size: 72px;
+  line-height: 0; color: #A9D2ED; position: absolute;
+}
+.b24-ss-pquote::before { content: "\201C"; left: 0; top: 30px; }
+.b24-ss-pquote::after  { content: "\201D"; right: 6px; bottom: -2px; }
+.page--sky .b24-ss-pquote { color: var(--b24p-deep); }
+.page--post .b24-ss-pquote { font-size: 40px; padding: 12px 64px; }
+.page--post .b24-ss-pquote::before, .page--post .b24-ss-pquote::after { font-size: 130px; }
+.page--post .b24-ss-pquote::before { top: 52px; }
+
+/* Vertical-centring wrapper for a pull-quote: it grows to fill the space between
+   the text above and any content pinned below, and centres the quote in it.
+   Put the quote inside; drop the old .b24-fill spacer that pushed things down. */
+.b24-ss-qwrap { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
+
+/* ---- 15.6  PRODUCT CHIPS  ------------------------------------------------
+   The row of Bitrix24 tools used (CRM, Tasks & Projects, …). A pill with a small
+   brand icon + navy label. Use the navy icon files on light pages.
+     <span class="b24-ss-chip"><img class="b24-ic" src="…/icons/crm.svg">CRM</span> */
+.b24-ss-chips { display: flex; flex-wrap: wrap; gap: var(--b24-s3); }
+.b24-ss-chip {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--b24-grad-partner-light); color: var(--b24p-deep);
+  font-family: var(--b24-font-display); font-weight: 600; font-size: 14px;
+  padding: 7px 18px 7px 7px; border-radius: var(--b24-r-pill); white-space: nowrap;
+}
+.b24-ss-chip .b24-ic { height: 1.15em; }
+/* solid-icon token: a blue brand-gradient CIRCLE holding a white solid glyph
+   (echoes the Bitrix24 app-icon look). Drop a *-white solid SVG inside. */
+.b24-ss-chip__ic { width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+  background: var(--b24-grad-partner-navy);
+  display: flex; align-items: center; justify-content: center; }
+.b24-ss-chip__ic img { width: 62%; height: 62%; object-fit: contain; display: block; }
+.page--post .b24-ss-chip__ic { width: 44px; height: 44px; }
+.page--sky .b24-ss-chip { color: var(--b24p-deep); background: rgba(255,255,255,.72); }
+.page--post .b24-ss-chips { gap: 16px; }
+.page--post .b24-ss-chip { font-size: 22px; padding: 10px 26px 10px 10px; gap: 12px; }
+
+/* ---- 15.7  CHANNEL CARDS  ------------------------------------------------
+   Lead-gen channels shown as a navy label bar over a photo (Webinars, Social
+   media, Paid ads, …). Stack in a column beside the answer, or grid them. */
+.b24-ss-channels { display: flex; flex-direction: column; gap: var(--b24-s4); }
+.b24-ss-channel { border-radius: var(--b24-r-inner); overflow: hidden;
+  box-shadow: var(--b24-shadow-card); background: #fff; }
+.b24-ss-channel__label { background: var(--b24-grad-partner-navy); color: #fff;
+  font-family: var(--b24-font-display); font-weight: 800; font-size: 14px;
+  text-align: center; padding: 10px 14px; }
+.b24-ss-channel__photo { display: block; width: 100%; height: 96px; object-fit: cover; }
+.page--post .b24-ss-channel__label { font-size: 24px; padding: 16px; }
+.page--post .b24-ss-channel__photo { height: 150px; }
+
+/* ---- 15.8  STAT CARDS  ---------------------------------------------------
+   The headline numbers: white rounded cards, each a brand icon, a big number and
+   a label. Three across.
+     <div class="b24-ss-stats"><div class="b24-ss-stat"> … </div> …</div> */
+.b24-ss-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--b24-s5); }
+.b24-ss-stat {
+  background: #fff; border-radius: var(--b24-r-card); padding: var(--b24-s6) var(--b24-s4);
+  text-align: center; box-shadow: var(--b24-shadow-card);
+  display: flex; flex-direction: column; align-items: center; gap: var(--b24-s2);
+}
+.b24-ss-stat__ic { width: 46px; height: 46px; object-fit: contain; }
+.b24-ss-stat__num { font-family: var(--b24-font-display); font-weight: 600;
+  font-size: 16px; line-height: 1; color: var(--b24-navy-900); }
+.b24-ss-stat__lbl { font-size: 13px; color: var(--b24-text-mute); line-height: 1.3; }
+.page--sky .b24-ss-stat__num { color: var(--b24p-deep); }
+.page--post .b24-ss-stat { padding: 40px 20px; border-radius: 26px; }
+.page--post .b24-ss-stat__ic { width: 64px; height: 64px; }
+.page--post .b24-ss-stat__num { font-size: 22px; }
+.page--post .b24-ss-stat__lbl { font-size: 20px; }
+
+/* ---- 15.9  FACTS LIST  ---------------------------------------------------
+   Label … value rows ("Started in: 2017"). Dotted leader keeps the two columns
+   readable. Used on the case-summary page/post. */
+.b24-ss-facts { margin: 0 0 var(--b24-s6); }
+.b24-ss-facts__row { display: flex; align-items: baseline; gap: var(--b24-s3);
+  padding: var(--b24-s3) 0; border-bottom: 1px solid var(--b24-line); }
+.b24-ss-facts__row:last-child { border-bottom: 0; }
+.b24-ss-facts__k { flex: 1 1 auto; font-size: 14px; color: var(--b24-text); }
+.b24-ss-facts__v { flex: 0 0 auto; font-family: var(--b24-font-display); font-weight: 800;
+  font-size: 14px; color: var(--b24-navy-900); }
+.page--sky .b24-ss-facts__v { color: var(--b24p-deep); }
+.page--post .b24-ss-facts__k, .page--post .b24-ss-facts__v { font-size: 24px; }
+
+/* ---- 15.10  AWARDS  ------------------------------------------------------
+   OPTIONAL. Awards (hexagon badges, iSpring/partner-program graphics, etc.) are
+   supplied per partner as a ready image — just place it. Many stories have NO
+   awards block; omit the whole thing then.
+     <div class="b24-ss-awards"><p class="b24-label">Awards:</p>
+       <img src="bitrix24-images/success-story/awards-<partner>.png"></div> */
+.b24-ss-awards { margin: 0 0 var(--b24-s4); }
+.b24-ss-awards img { display: block; width: 100%; max-width: 520px; height: auto; }
+.page--post .b24-ss-awards img { max-width: 100%; }
+
+/* ---- 15.11  BENEFIT CHIPS  ----------------------------------------------
+   The partner-program benefits on the CTA (Free to enter, Up to 50% commission,
+   …). Same chip family, tinted, with a small icon. */
+.b24-ss-benefits { display: flex; flex-wrap: wrap; gap: var(--b24-s3); justify-content: center; }
+.page--post .b24-ss-benefits { gap: 16px; }
+
+/* ---- 15.12  CTA CARD  ----------------------------------------------------
+   The closing "achieve the same success" card: a navy-gradient rounded plate,
+   text on the left, cutout people on the right. On the PDF it holds a real green
+   "Sign up" LINK; on a POST it ends with the muted line
+   "Use the link in the description" (a post has no clickable button). */
+.b24-ss-ctacard {
+  position: relative; overflow: hidden; border-radius: var(--b24-r-card);
+  background: var(--b24-grad-partner-navy); color: #fff;
+  padding: var(--b24-s8); display: flex; align-items: center; gap: var(--b24-s6);
+  box-shadow: var(--b24-shadow-navy);
+}
+.b24-ss-ctacard__text { flex: 1 1 0; min-width: 0; }
+.b24-ss-ctacard__text .b24-h2 { color: #fff; margin-bottom: var(--b24-s3); }
+.b24-ss-ctacard__text p { color: rgba(255,255,255,.92); margin: 0 0 var(--b24-s4); }
+.b24-ss-ctacard__media { flex: 0 0 42%; align-self: stretch; display: flex; align-items: flex-end;
+  justify-content: center; }
+.b24-ss-ctacard__media img { max-height: 220px; width: auto; object-fit: contain; }
+.b24-ss-note { font-family: var(--b24-font-display); font-weight: 700; font-style: italic;
+  color: rgba(255,255,255,.9); }
+.page--post .b24-ss-ctacard { padding: 48px; gap: 32px; }
+.page--post .b24-ss-ctacard__media img { max-height: 300px; }
+
+/* ---- 15.13  COMMUNITY ORBIT  --------------------------------------------
+   The decorative "partner network" graphic on the advice page/post: a central
+   "Bitrix24 Partners" node with avatar bubbles and green icon dots on two orbit
+   rings. Purely decorative; size with the wrapper. */
+.b24-ss-orbit { position: relative; width: 100%; aspect-ratio: 1 / 1; max-width: 460px; margin: var(--b24-s4) auto 0; }
+.b24-ss-orbit__ring { position: absolute; border-radius: 50%; border: 1.5px solid var(--b24-line); }
+.b24-ss-orbit__ring--1 { inset: 24%; }
+.b24-ss-orbit__ring--2 { inset: 4%; }
+.b24-ss-orbit__hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 34%; height: 34%; border-radius: 50%; background: radial-gradient(circle at 50% 38%, #EAF6FE, #CDE9FA);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: var(--b24-font-display); font-weight: 800; color: var(--b24p-deep); }
+.b24-ss-orbit__node { position: absolute; transform: translate(-50%,-50%);
+  width: 17%; height: 17%; border-radius: 50%; object-fit: cover; box-shadow: var(--b24-shadow-card);
+  background: #fff; }
+.b24-ss-orbit__dot { position: absolute; transform: translate(-50%,-50%);
+  width: 30px; height: 30px; border-radius: 50%; background: var(--b24-green);
+  display: flex; align-items: center; justify-content: center; }
+.b24-ss-orbit__dot img { width: 56%; height: 56%; object-fit: contain; }
+
+/* ============================================================================
+   15.x  SUCCESS STORY — additional components (generalised from the Reyada case)
+   New reusable pieces beyond §15: fact-pills, certificate showcase, check-pill
+   photo band, centred emblem. All content-agnostic — swap text/images per story.
+   ========================================================================== */
+
+/* ---- 15.x1  FACT-PILLS  --------------------------------------------------
+   A vertical list of azure pills, each an icon + a short metric. Sits inside a
+   column under a Q&A (e.g. "110+ clients / 19+ industries / 12+ countries").
+     <div class="b24-ss-factpills">
+       <span class="b24-ss-factpill"><img src="…/icon.svg">110+ clients</span> … */
+.b24-ss-factpills { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+.b24-ss-factpill {
+  display: flex; align-items: center; gap: 9px;
+  background: linear-gradient(120deg, #ECF9FF 0%, #CFEDFF 100%); color: var(--b24p-deep);
+  font-family: var(--b24-font-display); font-weight: 600; font-size: 13px;
+  padding: 6px 16px; border-radius: var(--b24-r-pill);
+}
+.b24-ss-factpill img { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
+
+/* ---- 15.x2  CERTIFICATE SHOWCASE  ----------------------------------------
+   A deep-navy rounded card holding partner-supplied certificate thumbnails —
+   two across the top, one centred below (as in Figma). Card keeps a fixed 233:320
+   aspect; the images are placed proportionally.
+     <div class="b24-ss-certs"><img><img><img></div> */
+.b24-ss-certs { position: relative; width: 100%; padding-top: 137.3%;   /* 320/233 */
+  background: var(--b24-grad-partner-navy); border-radius: 20px; overflow: hidden; }
+.b24-ss-certs img { position: absolute; width: 45.5%; border-radius: 7px;
+  box-shadow: 0 5px 14px rgba(0,0,0,.28); }
+.b24-ss-certs img:nth-child(1) { left: 3.4%;  top: 2.7%; }
+.b24-ss-certs img:nth-child(2) { right: 3.4%; top: 2.7%; }
+.b24-ss-certs img:nth-child(3) { left: 27%;   top: 48%; }
+
+/* ---- 15.x3  CHECK-PILL PHOTO BAND  ---------------------------------------
+   A wide rounded photo (e.g. a handshake) with floating white/azure pills, each
+   a check badge + a short role, overlaid at chosen spots. Position the pills with
+   inline left/right/top/bottom to match the composition.
+     <div class="b24-ss-checkband">
+       <img class="b24-ss-checkband__photo" src="…">
+       <span class="b24-ss-checkpill" style="left:..;top:.."><img src="circle-check…">Role</span> … */
+.b24-ss-checkband { position: relative; }
+.b24-ss-checkband__photo { display: block; width: 100%; border-radius: 20px; object-fit: cover; }
+.b24-ss-checkpill {
+  position: absolute; display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(120deg, #EAF6FF 0%, #CFEDFF 100%); color: var(--b24p-deep);
+  font-family: var(--b24-font-display); font-weight: 600; font-size: 15px;
+  padding: 8px 18px 8px 10px; border-radius: var(--b24-r-pill);
+  box-shadow: 0 8px 20px rgba(6,56,131,.20);
+}
+.b24-ss-checkpill img { width: 20px; height: 20px; object-fit: contain; flex: 0 0 auto; }
+
+/* ---- 15.x4  EMBLEM  ------------------------------------------------------
+   A single centred emblem/seal image (e.g. "Authorized Training Provider"),
+   partner-supplied, on the case-summary page below the stats.
+     <img class="b24-ss-emblem" src="…"> */
+.b24-ss-emblem { display: block; width: 100%; max-width: 440px; margin: 26px auto 0; }
+
+/* ==========================================================================
+   15.x5  MORE SUCCESS-STORY TEXT PATTERNS  (from the Figma "Pdf" library)
+   Generalised from the selected frames A4-38 / 63 / 84 / 98 / 106 / 135.
+   Sizes are the Figma value ×1.334 (Figma's 595-px page renders here as an
+   ~794-px A4), to match the reyada/hugo templates. Markers are always circled
+   numbers or check-badges — never plain dots; icons are flat dark-navy solid.
+   ========================================================================== */
+
+/* ---- 15.x5a  NUMBERED STEPS  (A4-38) -------------------------------------
+   Advice / how-to enumerated with a navy circle + white number, a BOLD lead-in
+   phrase, then regular justified text. Two-column grid; each step centred.
+     <div class="b24-ss-steps">
+       <div class="b24-ss-step"><span class="b24-ss-step__n">1</span>
+         <p class="b24-ss-step__txt"><strong>Be your best customer:</strong> the best …</p></div> … */
+.b24-ss-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 30px; align-items: start; }
+.b24-ss-steps--1col { grid-template-columns: 1fr; }
+.b24-ss-step { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.b24-ss-step__n {
+  flex: 0 0 auto; width: 41px; height: 41px; border-radius: 50%;
+  background: var(--b24-grad-partner-navy); color: #EFFBFF;
+  font-family: var(--b24-font-display); font-weight: 600; font-size: 21px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.b24-ss-step__txt { margin: 0; font-size: 17.3px; line-height: 1.4; color: var(--b24p-deep); text-align: justify; }
+.b24-ss-step__txt strong { font-weight: 700; }
+
+/* ---- 15.x5b  CHECK-BULLET LIST  (A4-63) ----------------------------------
+   Achievement / result bullets whose marker is a navy circle-check badge (not
+   a dot). Multi-line justified items, bold inline figures. 1- or 2-column.
+     <ul class="b24-ss-checklist b24-ss-checklist--2col">
+       <li class="b24-ss-checkli"><img src="…/circle-check.svg">Website redesign for the largest …</li> … */
+.b24-ss-checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.b24-ss-checklist--2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 26px; align-items: start; }
+/* hanging check-badge marker + normal (non-flex) text so multi-line items wrap
+   and left-align cleanly — a flex row would split the text and its <strong> runs. */
+.b24-ss-checkli { position: relative; padding-left: 31px; margin: 0;
+  font-size: 17.3px; line-height: 1.4; color: var(--b24p-deep); text-align: justify; }
+.b24-ss-checkli img { position: absolute; left: 0; top: 2px; width: 21px; height: 21px; object-fit: contain; }
+.b24-ss-checkli strong { font-weight: 600; }
+
+/* ---- 15.x5c  ICON FEATURE CARDS  (A4-84) ---------------------------------
+   White rounded cards (faint azure glow), each a large dark-navy SOLID icon
+   above a centred caption. Icons are partner-swappable CONTENT.
+     <div class="b24-ss-iconcards">
+       <div class="b24-ss-iconcard"><img class="b24-ss-iconcard__ic" src="…-navy.svg">
+         <p>Take the time to fully understand the product …</p></div> … */
+.b24-ss-iconcards { display: flex; flex-direction: column; gap: 16px; }
+.b24-ss-iconcard {
+  background: #FFFFFF;
+  border-radius: 27px; padding: 17px 29px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px;
+}
+.b24-ss-iconcard__ic { width: 68px; height: 68px; object-fit: contain; }
+.b24-ss-iconcard p { margin: 0; font-size: 17.3px; line-height: 1.35; color: var(--b24p-deep); }
+
+/* ---- 15.x5d  INSIGHT PILLS  (A4-98) --------------------------------------
+   Light-azure soft cards, each a small navy icon badge + one line of text with
+   a BOLD figure. Tighter than stat cards; for inline "success numbers".
+     <div class="b24-ss-insights"><div class="b24-ss-insight">
+       <span class="b24-ss-insight__ic"><img src="…-white.svg"></span>
+       <p>One of our clients improved sales task execution by <strong>40%</strong> …</p></div> … */
+.b24-ss-insights { display: flex; flex-direction: column; gap: 7px; }
+.b24-ss-insight { display: flex; gap: 9px; align-items: flex-start;
+  background: radial-gradient(120% 130% at 50% 20%, #ECF9FF 0%, #BEE9FF 100%);
+  border-radius: 7px; padding: 13px; }
+.b24-ss-insight__ic { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--b24-grad-partner-navy); display: flex; align-items: center; justify-content: center; }
+.b24-ss-insight__ic img { width: 62%; height: 62%; object-fit: contain; }
+.b24-ss-insight p { margin: 0; font-size: 17.3px; line-height: 1.25; color: var(--b24p-deep); font-weight: 500; }
+.b24-ss-insight strong { font-weight: 700; }
+
+/* ---- 15.x5e  NUMBER-IN-CIRCLE STAT CARDS  (A4-106) -----------------------
+   Horizontal stat card: a big navy disc holds the figure at LEFT, label at
+   right. A calmer alternative to the vertical .b24-ss-stat trio.
+     <div class="b24-ss-statdiscs"><div class="b24-ss-statdisc">
+       <span class="b24-ss-statdisc__n">200+</span>
+       <p class="b24-ss-statdisc__lbl">companies have trusted us with their implementation</p></div> … */
+.b24-ss-statdiscs { display: flex; flex-direction: column; gap: 13px; }
+.b24-ss-statdisc { display: flex; align-items: center; gap: 16px;
+  background: #FFFFFF;
+  border-radius: 27px; padding: 20px 16px; }
+.b24-ss-statdisc__n { flex: 0 0 auto; width: 103px; height: 103px; border-radius: 50%;
+  background: var(--b24-grad-partner-navy); color: #EFFBFF;
+  font-family: var(--b24-font-display); font-weight: 700; font-size: 32px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; text-align: center; }
+.b24-ss-statdisc__lbl { margin: 0; font-size: 17.3px; line-height: 1.3; color: var(--b24p-deep); }
+
+/* ---- 15.x5f  LABEL PILLS  (A4-135) ---------------------------------------
+   Navy rounded pill used as an inline sub-header BEFORE a paragraph
+   ("Advice 1", "Step 2", "Phase 1"). White SemiBold text, left-aligned.
+     <span class="b24-ss-advlabel">Advice 1</span>
+     <p class="b24-ss-advtext">Begin your Bitrix24 journey with your existing client base …</p> */
+.b24-ss-advlabel { display: block; background: var(--b24-grad-partner-navy); color: var(--b24-white);
+  font-family: var(--b24-font-display); font-weight: 600; font-size: 17.3px;
+  padding: 7px 15px; border-radius: var(--b24-r-pill); margin: 0 0 8px; }
+.b24-ss-advtext { margin: 0 0 15px; font-size: 17.3px; line-height: 1.35; color: var(--b24p-deep); text-align: justify; }
