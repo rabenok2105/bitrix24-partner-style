@@ -42,6 +42,10 @@ Montserrat font — so output is fully self-contained and offline.
   JPEG posts** from the same narrative. Filled with the Askarasoft example; copy
   a page/post and swap the text. Blank starters: `success-story-pdf-skeleton.html`
   and `success-story-posts-skeleton.html`. See §"Success Story" below.
+- **`linkedin-banner-template.html`** — living reference for the **LinkedIn
+  banner** direction (the `li-land` format): four 1200×628 single-image creatives
+  (cover/hook, 3D-icon hero, numbered cards, light close). Copy a banner and swap
+  the copy. See §"LinkedIn — carousels, posts and banners" below.
 - **`battle-card-template.html`** — living reference for the **Battle Cards**
   direction: a multi-page A4 **PDF** that positions Bitrix24 against ONE competitor
   (cover → pros/cons → advantages/positioning prose → PRICING → a multi-page
@@ -78,6 +82,7 @@ Montserrat font — so output is fully self-contained and offline.
 | **Success Story** — posts | `post` | 1080×1350 | `.page--post` | one **JPEG** per post |
 | **Battle Cards / Батлкарта** (Bitrix24 vs a competitor) | `a4` | 210×297 mm | `.bc-sheet` | multi-page PDF |
 | LinkedIn carousel / gallery | `li` | 1080×1080 | `.page--li` | one PNG per slide |
+| **LinkedIn banner** (single-image post / ad) | `li-land` | 1200×628 | `.page--li-land` | one PNG per banner |
 | Instagram Story | `story` | 1080×1920 | `.page--story` | one PNG per slide |
 
 The palette classes still apply on top: `.page--sky` (Partners light) and
@@ -308,6 +313,57 @@ for a Battle Card **with localization**, do NOT jump straight to the localized f
 4. **New block or table → confirm.** If a localization needs an extra block or a new
    table, add it, then **show the partner and ask whether it should look that way /
    whether everything is good** before finalizing.
+
+### LinkedIn — carousels, posts and banners
+
+Three different things, and picking the wrong one is the usual mistake:
+
+| | Canvas | Format | What it is |
+|---|---|---|---|
+| **Carousel / gallery** | 1080×1080 | `li` | a SERIES of square slides, swiped in the feed |
+| **Post series** | 1080×1350 | `post` | a SERIES of 4:5 slides (the Success Story posts) |
+| **Banner** | 1200×628 | `li-land` | ONE landscape creative — a single-image post or ad |
+
+**★ Landscape is NOT a carousel slide.** LinkedIn document carousels render square
+or portrait and **crop** landscape artwork. Use `li-land` only for a single-image
+post / ad creative; for a swipeable series use `li` or `post`. Living reference:
+`linkedin-banner-template.html` (`--format li-land`).
+
+**★ The banner composition is a SPLIT.** `.b24-bnr-split` — copy on the LEFT, exactly
+**ONE** dominant visual anchor on the RIGHT (cutout person, one 3D icon, a UI mock-up,
+a price card). `.b24-bnr-split--flip` mirrors it; keep one direction across a series.
+Optional `.b24-bnr-panel` puts a soft panel behind the object — place the object
+inside it with breathing room, never touching the edges.
+
+**★ Never pin the text mass to an edge.** `.page--li-land` centres its content
+vertically on purpose. A banner whose copy sits on the bottom (or top) edge with a
+void opposite it is a defect — rebalance instead.
+
+**★ One idea per creative, one hero object.** Do not stack two 3D elements, and do
+not let decorative accents (tetris, stars) compete with the hero — they stay
+secondary. On a cover, prefer exactly one 3D object.
+
+**★ Series rules (carousel or banner set).** Default to **5–7 slides** unless the
+user asks otherwise; each slide carries ONE takeaway. Repeat the structural
+elements — logo position, the `.b24-bnr-strip` takeaway line, the corner badge — so
+separate creatives read as one campaign rather than unrelated banners. Use
+headlines, bullets and cards instead of paragraphs; contrast is intentional (dark
+shell, light content cards, lime emphasis via `--b24-lime`).
+
+**★ Slide patterns** that work on these canvases: cover/hook, table or comparison
+(2–3 columns, strict grid, skimmable cells), checklist or process step (3–5 bullets,
+optional step badge top-right), **numbered cards** (`.b24-bnr-cards` — 2–3 cards;
+three is the ceiling at 628px), educational split (one side explains, the other
+holds one illustrative object), light CTA/summary (a pale sheet reads as a cleaner
+ending after several dark ones), closing CTA (back to cover logic + a bright CTA
+block, cleaner than the middle slides).
+
+**★ Default outline** when the user gives no slide-by-slide plan: hook / promise →
+context or problem → examples, segmentation or comparison → process or
+recommendation → CTA. Expand to 6–7 only when the topic needs the room, and vary
+the middle (table / numbered cards / checklist / split) instead of repeating one
+block. Assets come from the kit — `bitrix24-images/people/`, `3d-icons/`,
+`bitrix24-logo/` — never invent a new social style.
 
 ## Workflow
 

@@ -217,6 +217,7 @@ One brand, several canvases. Add a size modifier next to `.page`; the palette cl
 | A4 landscape | `.page--a4-land` | 297 × 210 mm | PDF — doc must also set `@page { size: A4 landscape; margin:0 }` |
 | **Industry Guide** | `.page--guide` | 1080 × 1350 px | **multi-page PDF** (all sheets in one file) |
 | LinkedIn square | `.page--li` | 1080 × 1080 px | PNG per slide |
+| **LinkedIn banner** | `.page--li-land` | 1200 × 628 px | PNG per banner — a SINGLE-image post, not a carousel slide (**§5d**) |
 | **LinkedIn post (4:5)** | `.page--post` | 1080 × 1350 px | **JPEG** per slide (the Success Story post series) |
 | Instagram Story | `.page--story` | 1080 × 1920 px | PNG per slide |
 
@@ -225,6 +226,9 @@ One brand, several canvases. Add a size modifier next to `.page`; the palette cl
 - **Social = one `.page` per slide.** Render each slide with `@page { size: 1080px 1080px; margin:0 }`
   (story: `1080px 1920px`) to a 1-page PDF, then rasterize that page to **PNG** (one image per slide).
   For carousels, keep one slide per HTML file so each exports to its own image cleanly.
+- **LinkedIn banner (`li-land`)** is 1.91:1 — much shorter than the 1080 px presets, so it carries
+  its OWN smaller type scale (§16 of the kit), not the `.page--li` one, and centres its content
+  vertically. See **§5d**.
 - **Instagram safe-zone:** wrap story content in `<div class="b24-safe">…</div>` — it insets the
   top/bottom ~240 px that Instagram overlays with the avatar (top) and reply/CTA bar (bottom).
 - **Runhead / footer / page numbers** are for multi-page A4 (PDF); social slides normally use just
@@ -416,6 +420,31 @@ photo, edge-fade), `.b24-ss-banner` (rounded navy-gradient section heading), `.b
 
 ---
 
+### 5d. LinkedIn banner — one landscape creative  (`.page--li-land`, format `li-land`)
+
+A **single-image LinkedIn post / ad**: 1200 × 628 px (1.91:1). **Living reference:**
+`linkedin-banner-template.html`. **Render:** `python3 scripts/render.py banner.html --format li-land`
+→ one PNG per banner.
+
+**Not a carousel slide.** LinkedIn document carousels render square or portrait and CROP
+landscape artwork — a series belongs on `.page--li` (1080×1080) or `.page--post` (1080×1350).
+
+**Signature composition — the split** (`.b24-bnr-split`): copy LEFT, exactly ONE dominant
+visual anchor RIGHT. `--flip` mirrors it. Components in kit §16:
+
+| Class | What |
+|---|---|
+| `.b24-bnr-split` / `__copy` / `__visual` | the split; the visual column holds one hero object |
+| `.b24-bnr-panel` | optional soft panel behind the hero object |
+| `.b24-bnr-strip` (`--ghost`) | recurring lime takeaway line — the element that ties a series together |
+| `.b24-bnr-badge` | corner badge, top-right: slide counter or topic tag |
+| `.b24-bnr-cards` / `.b24-bnr-card` / `__num` / `__h` / `__p` | 2–3 numbered cards (3 is the ceiling at 628 px) |
+
+**Rules.** 628 px of height is unforgiving: the canvas centres its content vertically, so
+never pin the text mass to the top or bottom edge with a void opposite it. One idea per
+banner, one hero object — never two 3D elements stacked, decoration stays secondary.
+Across a series, keep the logo position, the takeaway strip and the badge identical.
+
 ## 6. Component catalog
 
 Components live in `bitrix24-template.html` (rendered in the **Partners** style — the current
@@ -534,6 +563,12 @@ Position decoration with `.b24-deco` (absolute, `z-index:0`) and keep text in `.
     cover`), e.g. a full-width band on a content page.
 - Keep faces friendly, diverse, front-lit. Never stretch; the classes handle fit. Never place
   small body text over a busy photo.
+- **★ 3D objects (social only) — `bitrix24-images/3d-icons/`.** Rendered 3D props in the brand
+  green, on transparent backgrounds: `book.png`, `briefcase.png`, `check.png`, `diamond.png`,
+  `folder.png`, `paper-plane.png`. They are the hero object of a social creative (LinkedIn
+  banner / carousel cover) — **one per slide, never two stacked**, and never mixed with a cutout
+  person in the same visual anchor. Do **not** use them in PDFs: printed documents use the flat
+  Figma icon set (`ICONS.md`), not 3D renders.
 
 ```html
 <!-- floating cutout on a navy cover (person on the right, text on the left) -->

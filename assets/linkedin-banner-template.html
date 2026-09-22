@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitrix24 Partners — LinkedIn Banner Reference (1200×628)</title>
+<link rel="stylesheet" href="bitrix24-kit.css">
+<style>
+  /* Screen-only helper so you can see the banners stacked. */
+  @media screen { body { padding: 24px 0; } }
+</style>
+</head>
+<!--
+  ============================================================================
+  BITRIX24 PARTNERS — LINKEDIN BANNER — living reference (1200 × 628, 1.91:1)
+  ----------------------------------------------------------------------------
+  Format:  <section class="page page--li-land"> = ONE banner.
+  Render:  python3 scripts/render.py linkedin-banner-template.html --format li-land
+           -> linkedin-banner-template-01.png, -02.png ...
+
+  ★ This is a SINGLE-IMAGE post / ad creative, not a carousel slide. LinkedIn
+    document carousels render square or portrait and CROP landscape — for a
+    slide series use `li` (1080×1080) or `post` (1080×1350) instead.
+
+  ★ Signature composition: .b24-bnr-split — copy on the LEFT, exactly ONE
+    dominant visual anchor on the RIGHT. Keep the text mass vertically centred;
+    never pin it to the bottom edge.
+
+  The four banners below are the patterns that survive the 628px height:
+    1  Cover / hook        — cutout person, headline, takeaway strip
+    2  3D-icon hero        — one 3D object, promise + CTA
+    3  Numbered cards      — 3 cards max on this canvas
+    4  Light close / CTA   — pale sheet after the dark ones
+  ============================================================================ -->
+<body>
+
+<!-- ========================================================================
+     1 — COVER / HOOK  (dark sheet, cutout person right)
+     ===================================================================== -->
+<section class="page page--li-land page--partner-navy">
+  <div class="b24-tetris" style="position:absolute; right:-40px; top:-40px; opacity:.45;"></div>
+  <span class="b24-star" style="position:absolute; left:44px; bottom:60px; width:30px; height:30px;"></span>
+  <span class="b24-bnr-badge">Bitrix24 Partners</span>
+
+  <div class="b24-bnr-split">
+    <div class="b24-bnr-split__copy">
+      <img class="b24-plogo b24-plogo--cover" src="bitrix24-logo/logo-partner-h-white.png"
+           alt="Bitrix24 Partners" style="margin-bottom:24px; align-self:flex-start;">
+      <h1 class="b24-display">Your clients don't want<br>another <span class="b24-hl">tool.</span></h1>
+      <p class="b24-lead" style="margin-top:16px; max-width:92%;">
+        They want fewer systems, one source of truth, and a team that actually uses it.
+      </p>
+      <span class="b24-bnr-strip">One platform instead of five subscriptions</span>
+    </div>
+
+    <div class="b24-bnr-split__visual">
+      <img class="b24-bnr-obj" src="bitrix24-images/people/man-suit.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     2 — 3D-ICON HERO  (one object only — never stack two 3D elements)
+     ===================================================================== -->
+<section class="page page--li-land page--partner-navy">
+  <span class="b24-bnr-badge">Partner Program</span>
+
+  <div class="b24-bnr-split">
+    <div class="b24-bnr-split__copy">
+      <img class="b24-plogo b24-plogo--cover" src="bitrix24-logo/logo-partner-h-white.png"
+           alt="Bitrix24 Partners" style="margin-bottom:24px; align-self:flex-start;">
+      <h1 class="b24-h1">Sell the outcome.<br>We'll handle the platform.</h1>
+      <ul class="b24-bullets" style="margin-top:6px;">
+        <li>Recurring revenue from day one</li>
+        <li>Ready-made sales and marketing kit</li>
+        <li>Local support in your language</li>
+      </ul>
+      <a class="b24-btn" href="https://www.bitrix24.com/partners/"
+         style="margin-top:20px; align-self:flex-start;">Become a Partner</a>
+    </div>
+
+    <div class="b24-bnr-split__visual">
+      <div class="b24-bnr-panel"></div>
+      <img class="b24-bnr-obj" src="bitrix24-images/3d-icons/diamond.png" alt=""
+           style="max-height:70%;">
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     3 — NUMBERED CARDS  (3 is the ceiling on this canvas)
+     ===================================================================== -->
+<section class="page page--li-land page--partner-navy">
+  <img class="b24-plogo b24-plogo--cover" src="bitrix24-logo/logo-partner-h-white.png"
+       alt="Bitrix24 Partners" style="margin-bottom:18px;">
+  <h2 class="b24-h2" style="margin-bottom:20px;">Three reasons deals stall after the demo</h2>
+
+  <div class="b24-bnr-cards">
+    <div class="b24-bnr-card">
+      <span class="b24-bnr-card__num">1</span>
+      <div class="b24-bnr-card__h">No owner</div>
+      <p class="b24-bnr-card__p">Nobody on the client side is accountable for the rollout.</p>
+    </div>
+    <div class="b24-bnr-card">
+      <span class="b24-bnr-card__num">2</span>
+      <div class="b24-bnr-card__h">Too many tools</div>
+      <p class="b24-bnr-card__p">The new system lands next to five old ones instead of replacing them.</p>
+    </div>
+    <div class="b24-bnr-card">
+      <span class="b24-bnr-card__num">3</span>
+      <div class="b24-bnr-card__h">No first win</div>
+      <p class="b24-bnr-card__p">The team never sees a result in week one, so adoption dies quietly.</p>
+    </div>
+  </div>
+
+  <span class="b24-bnr-strip" style="margin-top:22px;">Fix the process, then install the software</span>
+</section>
+
+<!-- ========================================================================
+     4 — LIGHT CLOSE / CTA  (pale sheet — cleaner than the dark ones)
+     ===================================================================== -->
+<section class="page page--li-land page--sky">
+  <span class="b24-bnr-badge">Get started</span>
+
+  <div class="b24-bnr-split">
+    <div class="b24-bnr-split__copy">
+      <img class="b24-plogo b24-plogo--cover" src="bitrix24-logo/logo-partner-h.png"
+           alt="Bitrix24 Partners" style="margin-bottom:22px; align-self:flex-start;">
+      <h1 class="b24-h1">Ready to run the whole client on one platform?</h1>
+      <p class="b24-p" style="margin-top:10px; max-width:88%;">
+        CRM, tasks, telephony, sites and HR — in one place, for one price.
+      </p>
+      <a class="b24-btn" href="https://www.bitrix24.com/partners/"
+         style="margin-top:20px; align-self:flex-start;">Talk to a partner</a>
+    </div>
+
+    <div class="b24-bnr-split__visual">
+      <img class="b24-bnr-obj" src="bitrix24-images/people/duo-team.png" alt="">
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
