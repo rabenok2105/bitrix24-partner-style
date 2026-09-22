@@ -10,6 +10,7 @@ assembles the HTML from the bundled brand kit and renders the final file.
 - **Industry Guide** — 1080×1350 vertical, multi-page PDF (per-industry quick guides, localizable)
 - **Success Story / История успеха** — multi-page **A4 PDF** partner testimonial (one common template, filled per partner) + a matching LinkedIn post series
 - **LinkedIn** — square 1080×1080 carousels / galleries (PNG per slide)
+- **LinkedIn banner** — 1200×628 landscape single-image post / ad creative (PNG per banner)
 - **Instagram Stories** — 1080×1920 with a built-in UI safe-zone (PNG per slide)
 
 Everything (Montserrat font, official logos, colors, components) is bundled, so
@@ -93,6 +94,7 @@ bitrix24-partner-style/
 │   ├── bitrix24-kit.css      # tokens + component classes
 │   ├── bitrix24-template.html# copy-paste component source (A4 / social)
 │   ├── industry-guide-template.html # Industry Guide living reference (guide format)
+│   ├── linkedin-banner-template.html # LinkedIn banner living reference (li-land format)
 │   ├── success-story-pdf-template*.html     # Success Story — A4 PDF template + examples (Askarasoft / Reyada / Bit24)
 │   ├── success-story-posts-template.html    # Success Story — LinkedIn posts template
 │   ├── success-story-pdf-patterns-demo.html # Success Story — text-treatment patterns reference (§15.x5)

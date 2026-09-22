@@ -30,6 +30,11 @@ node id (for export).
    - **deep navy `#01447B`** inline on light pages (`….svg`).
    `scripts/prep_icon.py` produces both twins from a raw export (see below).
 
+6. **PDFs only.** This catalog is the flat Figma icon base for documents. The rendered
+   **3D objects** in `bitrix24-images/3d-icons/` are a separate, social-only family — the
+   hero object of a LinkedIn banner or carousel cover. Never put a 3D render in a PDF, and
+   never mix the two families in one file. See `DESIGN_SYSTEM.md §8`.
+
 ---
 
 ## Pick by meaning — semantic index (Solid)

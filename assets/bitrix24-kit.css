@@ -174,6 +174,12 @@ body {
 /* --- Social canvases ------------------------------------------------------ */
 .page--li    { width: 1080px; height: 1080px; min-height: 1080px; padding: 80px; }  /* LinkedIn square */
 .page--story { width: 1080px; height: 1920px; min-height: 1920px; padding: 90px 80px; } /* IG Stories 9:16 */
+/* LinkedIn LANDSCAPE banner (1.91:1) — a SINGLE-image post / ad creative, not a
+   carousel slide (LinkedIn crops landscape inside document carousels). Much
+   shorter than the 1080px canvases, so it carries its own, smaller type scale
+   (see §16) instead of the .page--li / .page--story one. */
+.page--li-land { width: 1200px; height: 628px; min-height: 628px; padding: 52px 60px;
+                 justify-content: center; }  /* text mass centred, never pinned to an edge */
 
 /* --- Industry Guide (multi-page vertical PDF) -----------------------------
    A 1080 × 1350 px (4:5) vertical page. Unlike the social presets, MANY
@@ -193,7 +199,9 @@ body {
 }
 
 /* Punchier type scale for the 1080px social canvases (A4 body type is too small
-   at this size). Higher specificity than the base scale, so these win. */
+   at this size). Higher specificity than the base scale, so these win.
+   NOTE: .page--li-land is deliberately NOT in this group — 628px of height
+   cannot carry a 70px display. Its own scale lives in §16. */
 .page--li, .page--story { font-size: 20px; line-height: 1.5; }
 .page--li  .b24-display, .page--story .b24-display { font-size: 70px; line-height: 1.02; }
 .page--li  .b24-h1,   .page--story .b24-h1   { font-size: 46px; margin-bottom: 28px; }
@@ -1269,3 +1277,106 @@ a, .b24-link   { color: var(--b24-blue-500); text-decoration: underline;
   font-family: var(--b24-font-display); font-weight: 600; font-size: 17.3px;
   padding: 7px 15px; border-radius: var(--b24-r-pill); margin: 0 0 8px; }
 .b24-ss-advtext { margin: 0 0 15px; font-size: 17.3px; line-height: 1.35; color: var(--b24p-deep); text-align: justify; }
+
+/* ============================================================================
+   16. LINKEDIN BANNER  —  landscape 1200 × 628 (`.page--li-land`, format li-land)
+   A single-image LinkedIn post / ad creative (1.91:1), NOT a carousel slide.
+   The signature composition is a SPLIT: a text zone on the left, ONE dominant
+   visual anchor on the right (cutout person, 3D icon, UI mock-up, price card).
+   Everything else — palette, pills, buttons, logos, tetris, stars — is shared
+   with the rest of the kit; only the canvas, the type scale and the split
+   layout below are specific to this format. Living reference:
+   linkedin-banner-template.html
+   ========================================================================== */
+
+/* ---- 16.0  Type scale -----------------------------------------------------
+   Sized for 628px of height: roughly between the A4 scale and the 1080px social
+   scale. A banner is read at feed size, so the headline still has to carry —
+   but a 70px display would leave no room for anything else. */
+.page--li-land { font-size: 18px; line-height: 1.45; }
+.page--li-land .b24-display { font-size: 48px; line-height: 1.06; }
+.page--li-land .b24-h1      { font-size: 38px; line-height: 1.12; margin-bottom: 18px; }
+.page--li-land .b24-h2      { font-size: 26px; }
+.page--li-land .b24-h3      { font-size: 20px; }
+.page--li-land .b24-lead    { font-size: 21px; line-height: 1.4; }
+.page--li-land .b24-p       { font-size: 18px; }
+.page--li-land .b24-label   { font-size: 14px; }
+.page--li-land .b24-small   { font-size: 13px; }
+.page--li-land .b24-pill    { font-size: 17px; padding: 8px 20px; }
+.page--li-land .b24-btn     { font-size: 20px; padding: 14px 34px; }
+.page--li-land .b24-bullets > li { font-size: 19px; padding-left: 30px; margin-bottom: 12px; }
+.page--li-land .b24-bullets > li::before { width: 10px; height: 10px; top: .5em; }
+.page--li-land .b24-tile    { width: 68px; height: 68px; font-size: 32px; border-radius: 16px; }
+.page--li-land .b24-quote   { font-size: 21px; border-left-width: 6px; padding-left: 22px; }
+.page--li-land .b24-plogo--cover { height: 32px; }
+
+/* ---- 16.1  SPLIT  —  copy left, one visual anchor right --------------------
+   The recurring banner composition. The copy column keeps the text mass
+   vertically CENTRED (never pinned to the bottom edge); the visual column
+   holds exactly ONE hero object with breathing room around it. */
+.b24-bnr-split {
+  display: flex; align-items: center; gap: 44px;
+  height: 100%; width: 100%;
+}
+.b24-bnr-split__copy   { flex: 1 1 58%; min-width: 0; display: flex;
+                         flex-direction: column; justify-content: center; }
+.b24-bnr-split__visual { flex: 0 1 38%; min-width: 0; height: 100%;
+                         display: flex; align-items: center; justify-content: center;
+                         position: relative; }
+/* The hero object itself — fits the column without touching the page edges. */
+.b24-bnr-split__visual > img,
+.b24-bnr-obj { max-width: 100%; max-height: 88%; object-fit: contain; display: block; }
+/* Mirror variant — visual on the LEFT (use sparingly; keep one direction per series). */
+.b24-bnr-split--flip { flex-direction: row-reverse; }
+
+/* Optional soft panel behind the hero object (the "visual panel" variant). */
+.b24-bnr-panel {
+  position: absolute; inset: 0; border-radius: 28px;
+  background: rgba(255, 255, 255, .08);
+}
+.page--sky .b24-bnr-panel { background: rgba(6, 56, 131, .05); }
+.b24-bnr-split__visual > .b24-bnr-panel + * { position: relative; }
+
+/* ---- 16.2  TAKEAWAY STRIP  ------------------------------------------------
+   A recurring one-line sales message across the bottom of the copy column.
+   Keep it identical on every banner of a series — it is the element that makes
+   separate creatives read as one campaign. */
+.b24-bnr-strip {
+  margin-top: 22px; padding: 12px 22px; border-radius: 14px;
+  background: var(--b24-lime); color: var(--b24-lime-ink);
+  font-weight: 700; font-size: 17px; line-height: 1.3;
+  align-self: flex-start;
+}
+.b24-bnr-strip--ghost {                      /* quieter variant for light sheets */
+  background: transparent; color: var(--b24p-deep);
+  border: 2px solid var(--b24-lime); padding: 10px 20px;
+}
+
+/* ---- 16.3  CORNER BADGE  --------------------------------------------------
+   Step / slide counter or a topic tag, top-right. Secondary to the headline. */
+.b24-bnr-badge {
+  position: absolute; top: 40px; right: 52px;
+  padding: 7px 16px; border-radius: 999px;
+  font-size: 14px; font-weight: 700; letter-spacing: .01em;
+  background: rgba(255, 255, 255, .14); color: #fff;
+}
+.page--sky .b24-bnr-badge { background: rgba(6, 56, 131, .08); color: var(--b24p-deep); }
+
+/* ---- 16.4  NUMBERED CARDS  ------------------------------------------------
+   2-3 cards in one row for frameworks, factors or sequential arguments.
+   On a 628px canvas three is the ceiling — a fourth card turns the banner into
+   unreadable feed noise. */
+.b24-bnr-cards { display: flex; gap: 18px; width: 100%; }
+.b24-bnr-card {
+  flex: 1 1 0; min-width: 0; padding: 20px 22px; border-radius: 18px;
+  background: rgba(255, 255, 255, .10);
+}
+.page--sky .b24-bnr-card { background: #fff; }
+.b24-bnr-card__num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%; margin-bottom: 12px;
+  background: var(--b24-lime); color: var(--b24-lime-ink);
+  font-size: 17px; font-weight: 800;
+}
+.b24-bnr-card__h { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+.b24-bnr-card__p { font-size: 15px; line-height: 1.35; }

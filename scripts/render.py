@@ -5,7 +5,8 @@ Render a Bitrix24 brand-content HTML file to its final asset.
   A4 (portrait / landscape) -> PDF
   Industry Guide (1080x1350 vertical) -> one multi-page PDF
   Success Story (A4) -> one multi-page PDF ; (posts) -> one JPEG per post
-  Social (LinkedIn square / portrait post / Instagram story) -> one image per slide
+  Social (LinkedIn square / portrait post / landscape banner / IG story)
+                                          -> one image per slide
 
 The script wires up the bundled design-system assets for you: it points the
 document at assets/bitrix24-kit.css (fonts + logos resolve automatically via a
@@ -14,7 +15,7 @@ HTML you author only needs the <section class="page ..."> blocks — no need to
 worry about stylesheet paths or @page rules.
 
 Usage:
-  python3 render.py INPUT.html --format {a4,a4-land,guide,li,post,story} [--out OUT] [--scale 2] [--jpeg|--png]
+  python3 render.py INPUT.html --format {a4,a4-land,guide,li,post,li-land,story} [--out OUT] [--scale 2] [--jpeg|--png]
 
 Examples:
   python3 render.py guide.html   --format a4         -> guide.pdf
@@ -22,6 +23,7 @@ Examples:
   python3 render.py industry.html --format guide     -> industry.pdf (multi-page 1080x1350)
   python3 render.py carousel.html --format li        -> carousel-01.png, -02.png ...
   python3 render.py posts.html   --format post       -> posts-01.jpg, -02.jpg ... (1080x1350)
+  python3 render.py banner.html  --format li-land   -> banner-01.png ... (1200x628)
   python3 render.py story.html   --format story --scale 2  -> story-01.png (2160x3840)
 
 Output image type for the social formats: PNG by default, EXCEPT `post`, which
@@ -45,6 +47,7 @@ FORMATS = {
     "guide":   ("1080px 1350px",   False),   # Industry Guide — multi-page vertical PDF
     "li":      ("1080px 1080px",   True),
     "post":    ("1080px 1350px",   True),    # Success Story LinkedIn/JPEG post series (4:5)
+    "li-land": ("1200px 628px",    True),    # LinkedIn landscape banner / single-image post (1.91:1)
     "story":   ("1080px 1920px",   True),
 }
 
