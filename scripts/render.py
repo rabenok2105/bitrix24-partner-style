@@ -118,6 +118,16 @@ def prepare_html(src_html: str, page_size: str) -> str:
         '</style>\n'
     )
 
+    # Cross-viewer rule: NO soft shadows in any rendered output. Soft box/text
+    # shadows are written as blurred soft-mask images that Preview, Safari, PDFgear
+    # and others draw differently (or as grey boxes), so strip them everywhere.
+    # Gradients / gradient text / masks / blend modes / filters are NOT stripped —
+    # pdf_flatten.py turns them into images at print time (see "PDF portability"
+    # in SKILL.md), so the PDF looks the same in every viewer.
+    head_close += (
+        '<style>*,*::before,*::after{box-shadow:none !important;text-shadow:none !important}</style>\n'
+    )
+
     if re.search(r"<head[^>]*>", src_html, re.I):
         out = re.sub(r"(<head[^>]*>)", r"\1\n" + head_open, src_html, count=1, flags=re.I)
         if re.search(r"</head>", out, re.I):
@@ -137,6 +147,30 @@ def _run_chrome(cmd):
         print(f"WARNING: Chrome did not finish in {CHROME_TIMEOUT}s ({cmd[1]}); retrying.",
               file=sys.stderr)
         return None
+
+# CSS px viewport for each format (96 css px per inch).
+PDF_VIEWPORT = {"a4": (794, 1123), "a4-land": (1123, 794), "guide": (1080, 1350),
+                "li": (1080, 1080), "post": (1080, 1350), "li-land": (1200, 628),
+                "story": (1080, 1920)}
+
+def to_portable_pdf(chrome: str, html_path: Path, pdf_path: Path, fmt: str):
+    """PDF that renders identically in Chrome, Preview, Safari, Acrobat, PDFgear...
+    CSS gradients / gradient text / masks / blends / filters / SVG gradients are
+    painted by Chrome into bitmaps before printing (scripts/pdf_flatten.py).
+    Falls back to the plain Chrome print only if the DevTools route fails."""
+    if os.environ.get("B24_PDF_FLATTEN", "1") != "0":
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            from pdf_flatten import html_to_portable_pdf
+            w, h = PDF_VIEWPORT.get(fmt, (794, 1123))
+            html_to_portable_pdf(chrome, html_path, pdf_path, w, h, ASSETS)
+            if pdf_path.exists():
+                return
+        except Exception as e:  # noqa: BLE001 — never block a render; warn loudly instead
+            print(f"WARNING: portable-PDF step failed ({e}); falling back to plain Chrome "
+                  "print. Gradients may look different outside Chrome — run "
+                  "scripts/check_pdf_portability.py on the result.", file=sys.stderr)
+    to_pdf(chrome, html_path, pdf_path)
 
 def to_pdf(chrome: str, html_path: Path, pdf_path: Path):
     flags = ["--disable-gpu", "--no-pdf-header-footer", "--no-first-run",
@@ -230,7 +264,9 @@ def main():
         tmp_html = Path(td) / "render.html"
         tmp_html.write_text(prepared, encoding="utf-8")
         tmp_pdf = Path(td) / "render.pdf"
-        to_pdf(chrome, tmp_html, tmp_pdf)
+        # Every format goes through the portable path: PDFs then look the same in
+        # every viewer, and social slides rasterize without gradient artefacts.
+        to_portable_pdf(chrome, tmp_html, tmp_pdf, args.format)
 
         if is_social:
             # Choose image type: explicit flag wins, else JPEG for `post`, else PNG.
@@ -247,6 +283,27 @@ def main():
             out = Path(args.out) if args.out else src.with_suffix(".pdf")
             shutil.copyfile(tmp_pdf, out)
             print("Rendered PDF:", out)
+            report_portability(out)
+
+def report_portability(pdf: Path):
+    """Run the cross-viewer check (scripts/check_pdf_portability.py) when pikepdf
+    is installed; otherwise just say how to run it."""
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from check_pdf_portability import audit
+    except (ImportError, SystemExit):
+        print("Tip: pip install pikepdf — then render.py also verifies that the PDF "
+              "looks the same in every viewer.", file=sys.stderr)
+        return
+    rep = audit(str(pdf))
+    if not rep:
+        print("Portability check: OK — renders the same in Chrome, Preview, Safari, Acrobat, PDFgear.")
+        return
+    print("WARNING: portability check FAILED — this PDF will look different outside Chrome:",
+          file=sys.stderr)
+    for page, found in rep.items():
+        print(f"  page {page}: " + ", ".join(f"{k} ×{v}" for k, v in sorted(found.items())),
+              file=sys.stderr)
 
 if __name__ == "__main__":
     main()

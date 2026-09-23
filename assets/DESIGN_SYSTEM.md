@@ -705,18 +705,37 @@ blurred shadow into a solid rectangle. This is insidious because programmatic ra
 (PyMuPDF/`fitz`, `pdftoppm`) render the shadow *correctly*, so **the box is invisible when you
 verify with a screenshot and only shows up when the user opens the PDF in Preview.**
 
-**Fix (already automatic):** `scripts/render.py` now injects a print-safe reset on every render
-that strips `box-shadow` from all shadowed components (`.b24-btn`, `.b24-tile`, `.b24-card--white`,
-`.b24-card--navy`, `.b24-table-wrap`, `.b24-compare`, `.b24-solve`, `.b24-quote`, pills/tags) and
-restores container definition with a hairline `--b24-line` border. You get flat, print-clean
-components with no boxes — **do nothing**.
+**Fix (already automatic):** `scripts/render.py` strips `box-shadow` and `text-shadow` from
+**every element** on every render, and restores container definition with a hairline
+`--b24-line` border on white cards / tables. You get flat, print-clean components with no
+boxes — **do nothing**.
 
 **Rules for Claude:**
-- ❌ **Never rely on `box-shadow` for depth** in a document meant for PDF. Do not add your own
-  `box-shadow` — it will box in Preview even though your `fitz` check looks clean.
+- ❌ **Never rely on `box-shadow` for depth** in a document meant for PDF — it is removed.
 - ✅ To separate a surface, use a **hairline border** (`1px solid var(--b24-line)`), not a shadow.
-- ✅ **Verifying is not enough with `fitz` alone for this class of bug** — `fitz` hides it. Trust
-  the reset (shadows are removed at the source), and if you must confirm visually, open the PDF in
-  Preview/Quick Look, not just a `fitz` rasterization.
-- The one shadow that is safe is the cutout-people **`filter: drop-shadow`** (`.b24-cutout--shadow`)
-  — that's a filter on a transparent PNG, not a box-shadow on a rectangle, so it renders fine.
+- ✅ `fitz` alone does not prove a PDF is clean — trust `scripts/check_pdf_portability.py`
+  (see §13).
+- The one shadow that stays is the cutout-people **`filter: drop-shadow`** (`.b24-cutout--shadow`)
+  — Chrome rasterizes filter effects into an image, which every viewer draws the same.
+
+---
+
+## 13. ★ Gradients look the same in every PDF viewer (handled automatically)
+
+**Symptom (before the fix):** the PDF is perfect in Chrome, but in macOS Preview, Safari or
+PDFgear the brand gradient (cover, Bitrix24 column headers, tiles) turns into **flat dark navy**,
+and gradient text (the Battle Cards cover title) is **cropped or sits in a box**.
+
+**Root cause:** Chrome writes CSS gradients, `background-clip: text`, `mask-image`,
+`mix-blend-mode` and SVG `<linearGradient>/<radialGradient>` as PDF shadings, tiling patterns,
+PostScript functions and luminosity masks. Apple PDFKit (Preview, Safari, Quick Look), PDFgear and
+many previewers implement these partially.
+
+**Fix (automatic):** `scripts/render.py` → `scripts/pdf_flatten.py` has Chrome paint every such
+effect into a high-resolution bitmap right before printing and swaps the effect for the bitmap
+(text and borders stay vector). `scripts/check_pdf_portability.py` then verifies the PDF contains
+no viewer-dependent constructs. Gradients remain fully allowed in the kit and templates.
+
+**Rules for Claude:** export only via `render.py` (never a browser's Print dialog), and deliver a
+PDF only after **"Portability check: OK"**. Put gradients/masks on real elements, not on
+`::before`/`::after` (pseudo-elements are not flattened and are reported as a warning).

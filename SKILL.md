@@ -61,6 +61,11 @@ Montserrat font — so output is fully self-contained and offline.
 - **`scripts/check_coverage.py`** — the Battle Card source check:
   `python3 scripts/check_coverage.py SOURCE.docx card.pdf` lists every docx fragment
   missing from the PDF (needs `python-docx` + `pdftotext` or PyMuPDF).
+- **`scripts/pdf_flatten.py`** — the portable-PDF printer `render.py` uses for every
+  format: turns gradients / gradient text / masks / blend modes / SVG gradients into
+  images so the PDF looks the same in every viewer (see "PDF portability").
+- **`scripts/check_pdf_portability.py`** — `python3 scripts/check_pdf_portability.py out.pdf`
+  lists any construct that renders differently outside Chrome (needs `pikepdf`).
 - **`LOCALIZATION.md`** — how to ship a guide per market: the tool-link glossary
   (EN/ES/PL) and the domain-swap URL rule. Read it whenever links or localization
   are involved.
@@ -405,6 +410,9 @@ python3 scripts/render.py slide1.html --format li
 python3 scripts/render.py story.html --format story --scale 2
 ```
 
+Every render goes through the **portable-PDF step** (see "PDF portability" below),
+so PDFs look identical in Chrome, Preview, Safari, Acrobat and PDFgear.
+
 Requires **Google Chrome/Chromium** (any recent version). PNG export also needs
 **PyMuPDF** (`pip install pymupdf`) or **poppler** (`pdftoppm`) — the script
 falls back automatically and tells you if something's missing.
@@ -474,13 +482,54 @@ Rendering silently is not enough — **look at what you made**:
   important sits in the top/bottom ~240px.
 - Check contrast (white on navy, deep-navy on green) and that the logo used the
   official lockup file, not a composite.
+- For every PDF, confirm render.py printed **"Portability check: OK"** (or run
+  `python3 scripts/check_pdf_portability.py out.pdf`). A failure means the file
+  will look different in Preview / Safari / PDFgear — fix it before delivering.
 - One quick way to catch A4 clipping programmatically: in a browser, compare each
   `.page`'s `scrollHeight` to `clientHeight` — a positive delta means overflow
   (decoration bleeding off-edge is expected; body text overflow is not).
 
-## Tip: PDF viewers and shadows
-The kit's cards/tiles use soft CSS `box-shadow`. Some PDF viewers (macOS Preview /
-Quick Look) rasterize a blurred shadow as a hard grey rectangle. If a document is
-mainly going to be viewed there and the shadows look boxy, swap them for a hairline
-border in the document's own `<style>`:
-`.b24-card--white,.b24-table-wrap{box-shadow:none;border:1px solid var(--b24-line)}`.
+## ★ PDF portability — every PDF must look the same in every viewer
+
+**Hard rule:** a PDF made by this skill must look **identical** in Chrome, macOS
+Preview / Quick Look, Safari, Adobe Acrobat, PDFgear, Google Drive, mail and phone
+previewers. Partners and clients open files in whatever they have — "it looks right
+in Chrome" is not enough.
+
+**Why it breaks without care.** Chrome writes CSS gradients, gradient text
+(`background-clip: text`), `mask-image`, `mix-blend-mode` and gradients inside
+inline SVG icons into the PDF as smooth shadings, tiling patterns, PostScript
+functions and luminosity masks. Only Chrome's own viewer draws all of them right.
+Elsewhere the brand gradient collapses into a flat dark navy, gradient headlines
+(e.g. the Battle Cards cover title) get cropped or boxed, masked photos disappear.
+
+**How the skill guarantees it (automatic — nothing to do in the HTML):**
+- `scripts/render.py` prints every format through `scripts/pdf_flatten.py`: before
+  printing, Chrome itself paints each such effect into a high-resolution bitmap
+  (3× = 288 dpi, small icons up to 10×) and the effect is swapped for that bitmap.
+  Text, borders, solid fills and vector shapes stay vector, so the page is
+  pixel-identical to Chrome's own rendering while every viewer draws it the same.
+  It needs only Chrome/Chromium + Python 3 (no extra packages).
+- Soft `box-shadow` / `text-shadow` are removed from every render (viewers draw
+  them as grey boxes). Separate surfaces with a hairline border instead.
+  `filter` effects (e.g. `.b24-cutout--shadow`) are fine — Chrome already
+  rasterizes them.
+- After writing a PDF, render.py runs `scripts/check_pdf_portability.py` (needs
+  `pip install pikepdf`) and prints **"Portability check: OK"** or lists the
+  offending pages. Run it by hand on any PDF:
+  `python3 scripts/check_pdf_portability.py out.pdf`
+
+**Rules for Claude:**
+- ✅ **Always export through `scripts/render.py`.** Never hand over a PDF saved from
+  a browser's Print dialog (Chrome or Safari) — that skips the flattening step and
+  the result will differ between viewers.
+- ✅ Treat a failed portability check as a bug to fix before delivering. If
+  render.py prints `WARNING: not flattened (…)` or the check fails, the HTML uses an
+  effect the flattener does not cover yet — typically a gradient or mask on a
+  `::before` / `::after` pseudo-element. Move that effect onto a real element
+  (e.g. an empty `<span>`), re-render, re-check.
+- ✅ Gradients, gradient text, masks and blend modes stay allowed in templates —
+  they are converted at render time. Don't strip brand gradients to "play safe".
+- ❌ Don't disable the step (`B24_PDF_FLATTEN=0` exists only for debugging).
+- Verifying with PyMuPDF / `pdftoppm` alone does not prove portability (they draw
+  some of these constructs fine); the portability check does.
