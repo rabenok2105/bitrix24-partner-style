@@ -223,7 +223,7 @@ SCAN_JS = r"""
       inTree.add(el);
       const existing = items.find(it => it.id === rid);
       if (existing) { existing.kind = 'blendroot'; existing.with = (existing.with || []).concat(id);
-                      existing.key = null; }
+                      existing.key = null; existing.smooth = false; }
       else { const rcs = getComputedStyle(root);
              items.push({id: rid, kind: 'blendroot', with: [id], ...box(root), fmt: opaque(rcs) ? 'jpeg' : 'png'}); }
       items.push({id, kind: 'hide'});
@@ -238,7 +238,10 @@ SCAN_JS = r"""
     } else {
       const key = ['self', cs.backgroundImage, cs.backgroundColor, cs.backgroundSize, cs.backgroundPosition,
                    cs.backgroundClip, cs.backgroundOrigin, cs.borderRadius, cs.borderWidth, b.lw, b.lh].join('|');
-      items.push({id, kind: 'self', ...b, fmt: (opaque(cs) && b.w * b.h > 150000) ? 'jpeg' : 'png', key});
+      // one smooth gradient layer, big enough for 8-bit banding to show -> de-band + dither
+      const layers = (cs.backgroundImage.match(/(gradient|url)\(/g) || []).length;
+      const smooth = layers === 1 && b.w * b.h > 5000;
+      items.push({id, kind: 'self', ...b, fmt: (opaque(cs) && b.w * b.h > 150000) ? 'jpeg' : 'png', key, smooth});
     }
   }
   return items;
@@ -258,6 +261,41 @@ MARK_JS = r"""
   document.documentElement.classList.add('pdfcap');
   return true;
 }
+"""
+
+# De-band a captured gradient: separable box blur (x3 ~ gaussian) on premultiplied
+# float RGB, then triangular-noise dither back to 8 bit. Alpha is kept as captured.
+DEBAND_JS = r"""
+(url, fmt, R, box) => new Promise((res, rej) => { const im = new Image(); im.onload = () => {
+  const W = im.naturalWidth, H = im.naturalHeight, c = document.createElement('canvas');
+  c.width = W; c.height = H; const g = c.getContext('2d', {willReadFrequently: true});
+  g.drawImage(im, 0, 0); const id = g.getImageData(0, 0, W, H), d = id.data, N = W * H;
+  const ch = [new Float32Array(N), new Float32Array(N), new Float32Array(N), new Float32Array(N)];
+  // pixels outside the element's painted box (JPEG has no alpha there) get zero weight
+  const x0 = Math.ceil(box.left), x1 = Math.floor(box.right), y0 = Math.ceil(box.top), y1 = Math.floor(box.bottom);
+  for (let i = 0; i < N; i++) { const x = i % W, y = (i / W) | 0;
+    const inside = x >= x0 && x < x1 && y >= y0 && y < y1;
+    const a = inside ? d[i*4+3] / 255 : 0; ch[3][i] = a;
+    ch[0][i] = d[i*4] * a; ch[1][i] = d[i*4+1] * a; ch[2][i] = d[i*4+2] * a; }
+  const tmp = new Float32Array(Math.max(W, H));
+  const blur1 = (A, len, stride, count, step, r) => {
+    for (let k = 0; k < count; k++) { const o = k * step; let acc = 0;
+      for (let i = -r; i <= r; i++) acc += A[o + Math.min(len - 1, Math.max(0, i)) * stride];
+      for (let i = 0; i < len; i++) { tmp[i] = acc / (2 * r + 1);
+        acc += A[o + Math.min(len - 1, i + r + 1) * stride] - A[o + Math.max(0, i - r) * stride]; }
+      for (let i = 0; i < len; i++) A[o + i * stride] = tmp[i]; } };
+  const r = Math.max(2, Math.round(R / 1.7));
+  for (const A of ch) for (let p = 0; p < 3; p++) { blur1(A, W, 1, H, W, r); blur1(A, H, W, W, 1, r); }
+  // ordered (Bayer 8x8) dither: invisible, and PNG compresses it far better than noise
+  const B = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,
+             3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+  for (let i = 0; i < N; i++) { const a = ch[3][i]; if (a < 1e-4) continue;
+    const t = (B[((((i / W) | 0) & 7) << 3) | ((i % W) & 7)] + 0.5) / 64 - 0.5;
+    for (let k = 0; k < 3; k++) { const v = ch[k][i] / a + t;
+      d[i*4+k] = v < 0 ? 0 : v > 255 ? 255 : Math.round(v); } }
+  g.putImageData(id, 0, 0);
+  res(c.toDataURL('image/png'));
+}; im.onerror = () => rej('deband decode failed'); im.src = url; })
 """
 
 # Find the probe's painted box inside a capture, with sub-pixel precision taken
@@ -440,6 +478,13 @@ def html_to_portable_pdf(chrome, html_path: Path, pdf_path: Path, width_px: int,
                            **({"quality": 92} if fmt == "jpeg" else {}),
                            captureBeyondViewport=True, fromSurface=True, clip=clip)
                 url = f"data:image/{fmt};base64," + shot["data"]
+                if it.get("smooth"):
+                    # Chrome rasterizes gradients in 8 bit without dithering: on a large
+                    # dark navy gradient that shows as visible steps. Rebuild the smooth
+                    # ramp (alpha-weighted blur in float) and dither it back to 8 bit.
+                    url = cdp.js(f"({DEBAND_JS})({json.dumps(url)}, {json.dumps(fmt)}, "
+                                 f"{int(round(min(16, max(3, min(it['rw'], it['rh']) / 8)) * scale))}, "
+                                 f"{json.dumps(m)})", await_promise=True)
                 if key:
                     cache[key] = (url, m)
             done.append((it["id"], "tree" if it["kind"] == "tree" else

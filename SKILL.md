@@ -506,7 +506,8 @@ Elsewhere the brand gradient collapses into a flat dark navy, gradient headlines
 **How the skill guarantees it (automatic — nothing to do in the HTML):**
 - `scripts/render.py` prints every format through `scripts/pdf_flatten.py`: before
   printing, Chrome itself paints each such effect into a high-resolution bitmap
-  (3× = 288 dpi, small icons up to 10×) and the effect is swapped for that bitmap.
+  (3× = 288 dpi, small icons up to 10×; large smooth gradients are de-banded and
+  dithered, so no visible steps on dark navy) and the effect is swapped for that bitmap.
   Text, borders, solid fills and vector shapes stay vector, so the page is
   pixel-identical to Chrome's own rendering while every viewer draws it the same.
   It needs only Chrome/Chromium + Python 3 (no extra packages).
