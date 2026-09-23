@@ -55,6 +55,10 @@ FORMATS = {
 JPEG_DEFAULT = {"post"}
 
 def find_chrome():
+    # Explicit override always wins: CHROME=/path/to/chrome python3 render.py ...
+    env = os.environ.get("CHROME")
+    if env and Path(env).exists():
+        return env
     candidates = [
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
         "/Applications/Chromium.app/Contents/MacOS/Chromium",
@@ -65,6 +69,13 @@ def find_chrome():
         p = shutil.which(name)
         if p:
             candidates.insert(0, p)
+    # Linux containers / cloud sandboxes: Playwright's headless shell is the most
+    # reliable CLI printer there (full Chromium's --headless can hang forever).
+    pw = Path(os.environ.get("PLAYWRIGHT_BROWSERS_PATH", str(Path.home() / ".cache/ms-playwright")))
+    for pat in ("chromium_headless_shell-*/chrome-linux/headless_shell",
+                "chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell"):
+        for hit in sorted(pw.glob(pat), reverse=True):
+            candidates.insert(0, str(hit))
     # Windows
     for p in (r"C:\Program Files\Google\Chrome\Application\chrome.exe",
               r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"):
@@ -72,7 +83,8 @@ def find_chrome():
     for c in candidates:
         if c and Path(c).exists():
             return c
-    sys.exit("ERROR: Chrome/Chromium not found. Install Google Chrome, or set it on PATH.")
+    sys.exit("ERROR: Chrome/Chromium not found. Install Google Chrome, set it on PATH, "
+             "or point the CHROME env var at the binary.")
 
 def prepare_html(src_html: str, page_size: str) -> str:
     """Inject <base> + the kit stylesheet (early), and @page + shadow reset (late).
@@ -116,16 +128,33 @@ def prepare_html(src_html: str, page_size: str) -> str:
                       src_html, count=1, flags=re.I)
     return "<head>" + head_open + head_close + "</head>" + src_html
 
+CHROME_TIMEOUT = int(os.environ.get("CHROME_TIMEOUT", "120"))  # seconds per attempt
+
+def _run_chrome(cmd):
+    try:
+        return subprocess.run(cmd, capture_output=True, text=True, timeout=CHROME_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        print(f"WARNING: Chrome did not finish in {CHROME_TIMEOUT}s ({cmd[1]}); retrying.",
+              file=sys.stderr)
+        return None
+
 def to_pdf(chrome: str, html_path: Path, pdf_path: Path):
-    cmd = [chrome, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-           f"--print-to-pdf={pdf_path}", html_path.as_uri()]
-    r = subprocess.run(cmd, capture_output=True, text=True)
-    if not pdf_path.exists():
+    flags = ["--disable-gpu", "--no-pdf-header-footer", "--no-first-run",
+             "--disable-dev-shm-usage"]
+    # Chrome refuses to start as root without --no-sandbox (Docker, cloud sandboxes).
+    if hasattr(os, "geteuid") and os.geteuid() == 0:
+        flags.append("--no-sandbox")
+    headless = [] if "headless_shell" in chrome or "headless-shell" in chrome else ["--headless=new"]
+    cmd = [chrome, *headless, *flags, f"--print-to-pdf={pdf_path}", html_path.as_uri()]
+    r = _run_chrome(cmd)
+    if not pdf_path.exists() and headless:
         # some Chrome builds need the old headless flag
         cmd[1] = "--headless"
-        subprocess.run(cmd, capture_output=True, text=True)
+        r = _run_chrome(cmd) or r
     if not pdf_path.exists():
-        sys.exit(f"ERROR: Chrome failed to produce a PDF.\n{r.stderr[:800]}")
+        err = r.stderr[:800] if r else f"timed out after {CHROME_TIMEOUT}s"
+        sys.exit(f"ERROR: Chrome failed to produce a PDF.\n{err}\n"
+                 "Tip: set CHROME=/path/to/chrome-headless-shell to use another binary.")
 
 def rasterize(pdf_path: Path, out_prefix: Path, scale: int, ext: str = "png", quality: int = 92):
     """One image per PDF page. Try PyMuPDF, then pdftoppm, then sips (page 1 only).
