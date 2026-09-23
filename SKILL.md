@@ -220,13 +220,13 @@ dividers** of the data columns; grey header = competitor, azure→navy **gradien
 header = Bitrix24; **all bold text is brand navy `#063883`**; row heights sync
 across the three columns and cell content is **vertically centred**.
 
-**★ One spacing system — everything on a 20 px rhythm.** Every gap between a heading
-(page title, sub-title, "vs" / "Pricing model" heading, "If billed …", "Example cases")
-and the table or content directly under it is **20 px**, and every gap between two large
-logical blocks (table→next heading, table→table, section→section) is also **20 px**.
-Cards carry a **15 px inner padding**. Do not leave odd one-off gaps (14/16/18/30) — after
-building, verify the whole file reads on the same 20 px rhythm. Titles are Montserrat
-SemiBold with **no extra letter-spacing**.
+**★ Spacing system.** Big block gaps (table→next heading, table→table, section→section)
+and the gap under the **big uppercase page title** (PRICING / FEATURES — `.ptitle`) are
+**20 px**. The gap between a **sub-heading** (the "vs" / "Pricing model" heading, "If
+billed …", "Example cases", "Plan cost example", the Cowork table caption) and the table
+directly under it is half that — **10 px** — so a sub-heading hugs its table while the big
+caps title keeps its air. Cards carry a **15 px inner padding**. No odd one-off gaps
+(14/16/18/30). Titles are Montserrat SemiBold with **no extra letter-spacing**.
 
 **★ Typography — restrained sizes, one uniform letter-spacing.** Keep the page/section
 headings modest (page title ≈ 18px, sub-titles ≈ 15–18px) and table column headers
