@@ -52,6 +52,15 @@ Montserrat font — so output is fully self-contained and offline.
   FEATURES matrix). Competitor-agnostic — filled via `{{COMPETITOR}}` / `{{Competitor}}`
   placeholders plus a per-file competitor-logo slot; the bundled example is filled
   with ZOHO. See §"Battle Cards" below.
+- **`battle-card-example-raynet.html`** — a **fully filled Battle Card** (Bitrix24 vs
+  Raynet CRM, 11 pages) with **Vibe+ ON**: the dedicated Vibe+ page ("Vibe+ plans" +
+  promo note + "what's new"), Vibe-recoloured "AI tools" / "AI & no-code platform"
+  tables, the competitor logo as an image (`bitrix24-logo/competitor-raynet.png`),
+  plan-based competitor pricing (so no "Example cases" page) and a two-paragraph
+  Conclusion. Copy blocks from here whenever the source doc has Vibe+ content.
+- **`scripts/check_coverage.py`** — the Battle Card source check:
+  `python3 scripts/check_coverage.py SOURCE.docx card.pdf` lists every docx fragment
+  missing from the PDF (needs `python-docx` + `pdftotext` or PyMuPDF).
 - **`LOCALIZATION.md`** — how to ship a guide per market: the tool-link glossary
   (EN/ES/PL) and the domain-swap URL rule. Read it whenever links or localization
   are involved.
@@ -198,7 +207,8 @@ unit from the partner's Word doc goes into the PDF verbatim (feature tier tags l
 "All paid plans (CoPilot); unlimited AI from Standard Vibe+ (coming soon)", the full
 "…priced at €6 excluding VAT" wording, the Cowork + Conclusion sections). Do NOT
 abbreviate ("Mon–Fri" for "Monday to Friday") or drop parentheticals. After building,
-run the automated coverage check (every docx paragraph + table cell must appear in the
+run the automated coverage check — `python3 scripts/check_coverage.py SOURCE.docx card.pdf`
+(every docx paragraph + table cell must appear in the
 rendered PDF text) and treat only icon/split-cell/hyphenation differences as expected.
 Living reference: `battle-card-template.html` (`--format a4`), built
 pixel-for-pixel from the Figma "Battle Cards" design. This is an **internal /
