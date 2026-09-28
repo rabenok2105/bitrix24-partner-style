@@ -27,7 +27,8 @@
   (count & length vary by content / localization). HARD RULE: the last block must
   never touch the page bottom — always leave a bottom margin. 3 blocks only fit
   when they still leave that margin; if they don't (as with this content), use 2
-  per page. A 2-block page keeps the centered logo footer (.b24-ig-foot); a full
+  per page. (To force 3-per-page when content is tight, compact ALL cards
+  file-wide: .page--guide .b24-card{padding:32px 36px} — see SKILL.md “3-cards-per-page”.) A 2-block page keeps the centered logo footer (.b24-ig-foot); a full
   3-block page drops it. This guide is 2 blocks/page — each ends with clear margin.
   Every "Bitrix24 Tools" name is a real, localizable <a> link — see LOCALIZATION.md.
   ============================================================================
